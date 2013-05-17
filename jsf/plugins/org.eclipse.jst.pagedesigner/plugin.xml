@@ -52,8 +52,16 @@
        point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs
 			contributorId="org.eclipse.jst.pagedesigner.tabPropertyContributor">
-			<propertyTab label="%propertyTab.label.QuickEdit" category="Quick Edit" id="org.eclipse.jst.pagedesigner.tabQuickEdit" />
-			<propertyTab label="%propertyTab.label.Attributes" category="Attributes" id="org.eclipse.jst.pagedesigner.tabAttributes" />
+			<propertyTab
+         category="FixProperty"
+         id="org.eclipse.jst.pagedesigner.FixAttributies"
+         label="%propertyTab.label.FixAttributies"/>
+   <propertyTab
+         category="FixProperty"
+         id="org.eclipse.jst.pagedesigner.FixEvens"
+         label="%propertyTab.label.FixEvens">
+   </propertyTab>
+			<propertyTab label="%propertyTab.label.Attributes" category="FixProperty" id="org.eclipse.jst.pagedesigner.tabAttributes" />
 		</propertyTabs>
  	</extension>
  	
@@ -61,6 +69,18 @@
         point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections 
 			contributorId="org.eclipse.jst.pagedesigner.tabPropertyContributor">
+   <propertySection
+         afterSection="top"
+         class="org.eclipse.jst.pagedesigner.properties.Fix6PropertySection"
+         id="section.FixAttributes"
+         tab="org.eclipse.jst.pagedesigner.FixAttributies">
+   </propertySection>
+   <propertySection
+         afterSection="top"
+         class="org.eclipse.jst.pagedesigner.properties.FixEvenPropertySection"
+         id="section.FixEvens"
+         tab="org.eclipse.jst.pagedesigner.FixEvens">
+   </propertySection>
 			<propertySection
          		afterSection="top"
          		class="org.eclipse.jst.pagedesigner.properties.AllPropertySection"
@@ -232,7 +252,8 @@
     <propertyContributor
           contributorId="org.eclipse.jst.pagedesigner.tabPropertyContributor"
           tabDescriptorProvider="org.eclipse.jst.pagedesigner.properties.internal.WPETabDescriptorProvider">
-       <propertyCategory></propertyCategory>
+       <propertyCategory
+             category="FixProperty"></propertyCategory>
     </propertyContributor>
  </extension>
  <extension

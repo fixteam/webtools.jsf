@@ -126,6 +126,17 @@ public final class FigureFactory
 		}
 
 		IFigureHandler handler = createAndAdapt(ele);
+		
+	
+
+		/*
+		 * founderfix 
+		 * 用于调试
+		 */
+		if(ele.getTagName().equals("form")){ //$NON-NLS-1$
+			System.out.println();
+		}
+		
 		handler.updateFigure(ele, figure);
 		if (!handler.isWidget()) {
 			NodeList children = ele.getChildNodes();

@@ -26,6 +26,19 @@ public class Messages extends NLS {
 	 * 
 	 */
 	public static String QuickEditTabDescriptor_label;
+	
+	
+	
+	/*
+	 * founderfix
+	 */
+	public static String FixAdvanceTabDescriptor_label;
+	public static String FixNormalTabDescriptor_label;
+	public static String FixServerTabDescriptor_label;
+	public static String FixEventTabDescriptor_label;
+	public static String FixVerifyTabDescriptor_label;
+	public static String FixActionTabDescriptor_label;
+	
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

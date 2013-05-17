@@ -94,6 +94,7 @@ public final class MetadataTagDropSourceData implements ITagDropSourceData
             tagCreationInfo = createCreationInfo(metadataContext, id,
                     getTagName());
         }
+ 
         return tagCreationInfo;
     }
 

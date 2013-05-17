@@ -20,6 +20,7 @@ import org.eclipse.jst.jsf.common.ui.internal.utils.JSFSharedImages;
 import org.eclipse.jst.jsf.core.internal.tld.CMUtil;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.PageDesignerTraceOptions;
+import org.eclipse.jst.pagedesigner.converter.founderfix.FOUNDERFIXConverterFactory;
 import org.eclipse.jst.pagedesigner.converter.html.HTMLConverterFactory;
 import org.eclipse.jst.pagedesigner.converter.jsp.JSPConverterFactory;
 import org.eclipse.swt.graphics.Image;
@@ -53,6 +54,7 @@ public class ConverterFactoryRegistry
         }
         _factories.add(new JSPConverterFactory());
         _factories.add(new HTMLConverterFactory());
+        _factories.add(new FOUNDERFIXConverterFactory());
         
         // TODO: this is not ideal, but until we get a better system for 
         // doing converter factory ordering:
@@ -92,7 +94,11 @@ public class ConverterFactoryRegistry
     protected final ITagConverter internalCreateTagConverter(final Element ele,
             final int mode)
     {
-        final String uri = CMUtil.getElementNamespaceURI(ele);
+        String uri = CMUtil.getElementNamespaceURI(ele);
+        
+        if(ele.getTagName().equals("span")){ //$NON-NLS-1$
+        	uri = "founderfix"; //$NON-NLS-1$
+        }
         // first round, match uri
         for (int i = 0, size = _factories.size(); i < size; i++)
         {

@@ -58,7 +58,10 @@ public class HTMLConverterFactory implements IConverterFactory {
 			c = new TableTagConverter(element);
 		} else if (IHTMLConstants.TAG_A.equalsIgnoreCase(tagName)) {
 			c = new ATagConverter(element);
-		} else if (IHTMLConstants.TAG_FORM.equalsIgnoreCase(tagName)) {
+		} 
+		else if (IHTMLConstants.TAG_FORM.equalsIgnoreCase(tagName)
+//				||IHTMLConstants.TAG_DIV.equalsIgnoreCase(tagName)
+				||IHTMLConstants.TAG_EM.equalsIgnoreCase(tagName)) {
 			// for those HTML tag that we want to build a border decorator,
 			// should
 			// go there.
@@ -67,7 +70,8 @@ public class HTMLConverterFactory implements IConverterFactory {
 				|| IHTMLConstants.TAG_BODY.equalsIgnoreCase(tagName)) {
 			c = new DumDescriptionTagConverter(element);
 			c.setNeedBorderDecorator(true);
-		} else {
+		}
+		else {
 			c = new DumTagConverter(element);
 		}
 		c.setMode(mode);

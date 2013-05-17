@@ -92,4 +92,10 @@ public class DefaultTagCreationAdvisor extends AbstractTagCreationAdvisor
     {
         return new TagContainerCreationCommand(position, IHTMLConstants.TAG_IDENTIFIER_HTML_FORM, _creationData.getTagId());
     }
+    
+    
+    /*protected ContainerCreationCommand getFounderfixFormCommand(final IDOMPosition position)
+    {
+        return new TagContainerCreationCommand(position, IHTMLConstants.TAG_IDENTIFIER_HTML_FORM, _creationData.getTagId());
+    }*/
 }

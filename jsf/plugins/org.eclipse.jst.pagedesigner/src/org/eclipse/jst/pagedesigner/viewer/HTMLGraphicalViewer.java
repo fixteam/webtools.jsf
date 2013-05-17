@@ -31,9 +31,13 @@ import org.eclipse.jst.pagedesigner.tools.ExposeHelper;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Caret;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Node;
+
+import com.founder.fix.studio.platformdesigner.views.BizObjFieldsView;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.properties.ModelCommet;
 
 /**
  * For the GraphicalViewer selection management, we have two different selection
@@ -348,6 +352,17 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#appendSelection(org.eclipse.gef.EditPart)
 	 */
 	public void appendSelection(EditPart editpart) {
+		
+		/*
+		 *	@author Fifteenth
+		 *		select field
+		 */
+		Node commentNode = ModelCommet.getNode((ElementStyleImpl)((ElementEditPart)editpart).getDOMNode(), ""); //$NON-NLS-1$
+		
+		String selectField = BizObjFieldsView.getSelectionField(commentNode);
+		
+		BizObjFieldsView.setSelection(selectField);
+		
 		internalToObjectMode();
 		super.appendSelection(editpart); // super will fireSelectionChanged.
 	}

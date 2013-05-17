@@ -11,8 +11,11 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.editors.palette.impl;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -51,6 +54,10 @@ import org.eclipse.jst.pagedesigner.editors.palette.TagToolPaletteEntry;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMElementDeclaration;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMNamedNodeMap;
+
+import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.XmlPropBufferProvider;
+
 
 /**
  * Helper class.
@@ -135,6 +142,7 @@ public class PaletteHelper {
 //				.createMetaDataModelContext(manager.getTagRegistryIdentifier().getProject(), tldURI);
 //		final Model model = TaglibDomainMetaDataQueryHelper.getModel(modelContext);
 		category = createTaglibPaletteDrawer(manager, doc, model, query);
+		
 
 		if (category != null) {
 			loadTags(category, doc, model, query);
@@ -143,6 +151,36 @@ public class PaletteHelper {
 		return category;
 	}
 
+	
+	/**
+	 * @param manager
+	 * @param doc
+	 * @param tldURI
+	 * @return TaglibPaletteDrawer
+	 */
+	public TaglibPaletteDrawer getOrCreateCategory(
+			final IPaletteItemManager manager, final CMDocument doc, final String tldURI) {
+		
+		TaglibPaletteDrawer category = findCategory(manager, tldURI);
+		if (category != null)
+			return category;
+		
+		final IMetaDataDomainContext context = MetaDataQueryContextFactory.getInstance().createTaglibDomainModelContext(manager.getTagRegistryIdentifier().getProject());
+		final ITaglibDomainMetaDataQuery query = MetaDataQueryFactory.getInstance().createQuery(context);
+		final Model model = query.findTagLibraryModel(tldURI);
+//		final ITaglibDomainMetaDataModelContext modelContext = TaglibDomainMetaDataQueryHelper
+//				.createMetaDataModelContext(manager.getTagRegistryIdentifier().getProject(), tldURI);
+//		final Model model = TaglibDomainMetaDataQueryHelper.getModel(modelContext);
+		category = createTaglibPaletteDrawer(manager, doc, model, query);
+		
+
+		if (category != null) {
+			loadTags(category, doc, model, query);
+			sortTags(category.getChildren());
+		}
+		return category;
+	}
+	
 	private void sortTags(final List tags) {
 		// note that once we store ordering customizations, we will need to do
 		// something different
@@ -175,27 +213,118 @@ public class PaletteHelper {
 
 	private void loadTags(final TaglibPaletteDrawer category, final CMDocument doc,
 			final Model model, final ITaglibDomainMetaDataQuery query) {
-
-		if (model != null) {// load from metadata - should always drop in here
-			final Trait trait = query.findTrait(model,
-					"paletteInfos"); //$NON-NLS-1$
-			if (trait != null) {
-				final PaletteInfos tags = (PaletteInfos) trait.getValue();
-				for (final Iterator it = tags.getInfos().iterator(); it.hasNext();) {
-					final PaletteInfo tag = (PaletteInfo) it.next();
-					createTagEntry(category, tag, doc);
+		
+		if(category.getId().equals("FOUNDERFIX")){ //$NON-NLS-1$){
+			/*
+			 *	@author Fifteenth
+			 *		自定义组件
+			 */
+			
+			//得到所有组件信息
+//			AbstractTagCreatorProvider.getComponentJson();
+//			
+//			for(int i=0;i<AbstractTagCreatorProvider.componentList.size();i++){
+//				HashMap<String,Object> map= AbstractTagCreatorProvider.componentList.get(i);
+//				String pagePage = FormPageUtil.formPagePath;
+//        		String webProjectName = FormPageUtil.webProjectName;
+//        		String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
+//        				+"/WebRoot/components/"+map.get("tagname").toString()+"/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//				ImageDescriptor imageDescriptor = null;
+//				try {
+//					imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
+//				} catch (MalformedURLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				if(map.get("displayTag")==null){ //$NON-NLS-1$
+//					internalCreateTagEntry(category,map.get("tagname").toString(),map.get("tagname").toString(),map.get("tagname").toString().toString(),"desc",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//				}else{
+//					internalCreateTagEntry(category,map.get("tagname").toString(),map.get("displayTag").toString(),map.get("tagname").toString(),"desc",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//				}
+//			}
+		}else{
+			if (model != null) {// load from metadata - should always drop in here
+				final Trait trait = query.findTrait(model,
+						"paletteInfos"); //$NON-NLS-1$
+				if (trait != null) {
+					final PaletteInfos tags = (PaletteInfos) trait.getValue();
+					for (final Iterator it = tags.getInfos().iterator(); it.hasNext();) {
+						final PaletteInfo tag = (PaletteInfo) it.next();
+						createTagEntry(category, tag, doc);
+					}
+				} else {
+					for (final Iterator it = model.getChildEntities().iterator(); it
+							.hasNext();) {
+						final Entity tagAsEntity = (Entity) it.next();
+						createTagEntry(category, tagAsEntity, doc, query);
+					}
 				}
-			} else {
-				for (final Iterator it = model.getChildEntities().iterator(); it
-						.hasNext();) {
-					final Entity tagAsEntity = (Entity) it.next();
-					createTagEntry(category, tagAsEntity, doc, query);
+			} else {// fail safe loading from cmDoc... should no longer go in here
+				loadFromCMDocument(category, doc);
+			}
+		}
+	}
+	
+	
+	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category){
+		String pagePage = FormPageUtil.currentFormPagePath;
+		String webProjectName = FormPageUtil.webProjectName;
+		String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
+				+"/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
+		ImageDescriptor imageDescriptor = null;
+		try {
+			imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		internalCreateTagEntry(category,"table1","table","表格","可用于自动生成明细表",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		category.setInitialState(1);
+	}
+	
+	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
+		
+		/*
+		 *	@author Fifteenth
+		 *		自定义组件
+		 */
+		
+		//得到所有组件信息
+		XmlPropBufferProvider.getComponentJson();
+		
+		String pagePage = FormPageUtil.currentFormPagePath;
+		String webProjectName = FormPageUtil.webProjectName;
+		
+		for(int i=0;i<XmlPropBufferProvider.componentList.size();i++){
+			HashMap<String,Object> map= XmlPropBufferProvider.componentList.get(i);
+			String categoryType = category.getLabel();
+			Object toolbarGroupCaption = map.get("toolbarGroupCaption"); //$NON-NLS-1$
+			if(toolbarGroupCaption!=null){
+				if(toolbarGroupCaption.toString().equals(categoryType)){
+					String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
+		    				+"/WebRoot/components/"+map.get("tagname").toString()+"/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					ImageDescriptor imageDescriptor = null;
+					try {
+						imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(map.get("displayTag")==null){ //$NON-NLS-1$
+						internalCreateTagEntry(category,map.get("tagname").toString(), //$NON-NLS-1$
+								map.get("tagname").toString(),map.get("caption").toString().toString(), //$NON-NLS-1$ //$NON-NLS-2$
+								"",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ 
+					}else{
+						internalCreateTagEntry(category,map.get("tagname").toString(), //$NON-NLS-1$
+								map.get("displayTag").toString(),map.get("caption").toString(),  //$NON-NLS-1$//$NON-NLS-2$
+								"",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ 
+					}
 				}
 			}
-		} else {// fail safe loading from cmDoc... should no longer go in here
-			loadFromCMDocument(category, doc);
 		}
-
+		
+		category.setInitialState(1);
+		sortTags(category.getChildren());
 	}
 
 	private TaglibPaletteDrawer createTaglibPaletteDrawer(
@@ -394,6 +523,7 @@ public class PaletteHelper {
 
 		item.setVisible(!expert);
 		category.getChildren().add(item);
+		
 		item.setParent(category);
 
 		return item;

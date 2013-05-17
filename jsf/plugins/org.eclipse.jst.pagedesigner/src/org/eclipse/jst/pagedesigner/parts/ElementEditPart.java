@@ -238,6 +238,13 @@ public class ElementEditPart extends SubNodeEditPart {
 		Image image = _tagConverter.getVisualImage();
 		HiddenProvider provider = new HiddenProvider(image, this);
 		((CSSFigure) getFigure()).setCSSStyle(provider.getCSSStyle());
+		
+		/*
+		 * founderfix
+		 */
+		if(appendString.equals("span")){ //$NON-NLS-1$
+			appendString = ""; //$NON-NLS-1$
+		}
 		provider.setLabel(appendString);
 		return provider;
 	}

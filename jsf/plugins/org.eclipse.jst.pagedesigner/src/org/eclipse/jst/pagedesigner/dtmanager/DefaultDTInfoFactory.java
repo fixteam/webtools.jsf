@@ -25,6 +25,8 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
 
+import com.founder.fix.studio.wpeformdesigner.TempStatic;
+
 /**
  * Default IDTInfoFactory implementation.
  * 
@@ -69,6 +71,13 @@ public class DefaultDTInfoFactory implements IDTInfoFactory {
 	private String getURI(Element element) {
         String uri = CMUtil.getElementNamespaceURI(element);
         
+        /*
+         * founderfix
+         */
+//        if(element.getLocalName().equals("FlowState")){ //$NON-NLS-1$
+//        	return "FOUNDERFIX"; //$NON-NLS-1$
+//        }
+        
         // give the content model priority
         if (uri == null)
         {
@@ -81,6 +90,8 @@ public class DefaultDTInfoFactory implements IDTInfoFactory {
         	uri = CMDocType.JSP11_DOC_TYPE;
         if (uri.equals("html")) //$NON-NLS-1$
         	uri = CMDocType.HTML_DOC_TYPE;
+        if (TempStatic.getCategoriesList().equals(uri))
+        	uri = CMDocType.FOUNDERFIX_DOC_TYPE;
         return uri;
     }
 	

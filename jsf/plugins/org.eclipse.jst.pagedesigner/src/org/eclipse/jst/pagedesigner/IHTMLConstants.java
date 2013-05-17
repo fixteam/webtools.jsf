@@ -503,6 +503,10 @@ public class IHTMLConstants {
 	public static final TagIdentifier TAG_IDENTIFIER_HTML_FORM =
 	    TagIdentifierFactory.createJSPTagWrapper(CMDocType.HTML_DOC_TYPE, TAG_FORM);
 	
+	
+	/*public static final TagIdentifier TAG_IDENTIFIER_FOUNDERFIX_FORM =
+		    TagIdentifierFactory.createJSPTagWrapper(CMDocType.FOUNDERFIX_DOC_TYPE, TAG_FORM);*/
+	
     // program argument
 
 	/**

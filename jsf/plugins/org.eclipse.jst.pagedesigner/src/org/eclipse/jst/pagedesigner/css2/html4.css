@@ -4,7 +4,7 @@
 html,
 address,
 blockquote,listing,
-body, dd, div,
+body, dd, div,em,
 dl, dt, fieldset, legend,form,
 frame, frameset,
 h1, h2, h3, h4,
@@ -110,7 +110,7 @@ select {vertical-align: text-bottom;}
 input[type=image]  {vertical-align: baseline;}
 li   {min-height:1.2em}
 button {min-height:1.8em}
-div,tr,form {min-height:1.2em}
+div,em,tr,form {min-height:1.2em}
 table,td {min-width:1.2em;min-height:1.2em}
 
 /* nested lists have no top/bottom margins */

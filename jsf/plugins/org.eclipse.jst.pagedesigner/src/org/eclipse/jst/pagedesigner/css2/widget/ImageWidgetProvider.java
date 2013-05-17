@@ -24,6 +24,8 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ImageWidgetProvider extends AbstractWidgetProvider {
 	private static final String NOPIC_IMAGE_NAME = "PD_nopic.jpg"; //$NON-NLS-1$
+	
+	private static final String FIX_IMAGE_NAME = "fix.jpg"; //$NON-NLS-1$
 
 	private static Image _noPicImage;
 
@@ -68,6 +70,33 @@ public class ImageWidgetProvider extends AbstractWidgetProvider {
 			useNoPicImage();
 		}
 	}
+	
+	
+	/**
+	 * @param image
+	 * @param style
+	 * 
+	 * @param fix
+	 */
+	public ImageWidgetProvider(Image image, ICSSStyle style,String fix) {
+		super(style);
+
+		// set up image and image width/height
+		org.eclipse.swt.graphics.Rectangle rect = null;
+		if (image != null) {
+			rect = image.getBounds();
+			if (rect.width <= 0 || rect.height <= 0) {
+				useNoPicImage();
+			} else {
+				_image = image;
+				_imageWidth = rect.width;
+				_imageHeight = rect.height;
+			}
+		} else {
+			useFixPicImage();
+		}
+	}
+	
 
 	/**
 	 * 
@@ -81,6 +110,25 @@ public class ImageWidgetProvider extends AbstractWidgetProvider {
 			_noPicWidth = rect.width;
 			_noPicHeight = rect.height;
 		}
+		_image = _noPicImage;
+		_imageWidth = _noPicWidth;
+		_imageHeight = _noPicHeight;
+	}
+	
+	
+	/**
+	 * founderfix
+	 */
+	private void useFixPicImage() {
+		
+		ImageDescriptor noPicImageDesc = PDPlugin.getDefault()
+				.getImageDescriptor(FIX_IMAGE_NAME);
+		_noPicImage = noPicImageDesc.createImage();
+		org.eclipse.swt.graphics.Rectangle rect = _noPicImage.getBounds();
+		_noPicWidth = rect.width;
+		_noPicHeight = rect.height;
+		
+			
 		_image = _noPicImage;
 		_imageWidth = _noPicWidth;
 		_imageHeight = _noPicHeight;

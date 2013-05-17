@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
@@ -34,7 +35,7 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
-import org.eclipse.jst.jsf.common.internal.JSPUtil;
+//import org.eclipse.jst.jsf.common.internal.JSPUtil;
 import org.eclipse.jst.jsf.common.runtime.internal.view.model.common.Namespace;
 import org.eclipse.jst.jsf.core.internal.CompositeTagRegistryFactory;
 import org.eclipse.jst.jsf.core.internal.CompositeTagRegistryFactory.TagRegistryIdentifier;
@@ -51,6 +52,8 @@ import org.eclipse.jst.pagedesigner.editors.palette.IPaletteItemManager;
 import org.eclipse.wst.html.core.internal.contentmodel.HTMLCMDocumentFactory;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.contentmodel.CMDocType;
+import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
+import com.founder.fix.studio.wpeformdesigner.TempStatic;
 
 /**
  *  Manages tag library palette by palette context.   Capable of handling JSP and XHTML content types.
@@ -103,6 +106,18 @@ public class PaletteItemManager implements IPaletteItemManager,
 	 * 				May return null if locking issue 
 	 */
 	public static PaletteItemManager getInstance(final IPaletteContext paletteContext) {	
+		/*
+		 *	@author Fifteenth
+		 *		一些初始化信息:
+		 *		1.formPageFile
+		 *		2.formPagePath
+		 *		3.webProjectName
+		 */
+		FormPageUtil.formPageFile = paletteContext.getFile();
+		FormPageUtil.currentFormPagePath = FormPageUtil.formPageFile.getLocation().toString();
+		FormPageUtil.webProjectName = ((File)paletteContext.getFile()).getProject().getName();
+		
+		
 		boolean hasLock = false;
 		try {
 			if (MANAGER_LOCK.tryLock(MANAGER_LOCK_TIMEOUT, TimeUnit.SECONDS)){
@@ -113,6 +128,7 @@ public class PaletteItemManager implements IPaletteItemManager,
 					return null;
 				}
 				PaletteItemManager manager = _managers.get(regId);
+				
 				if (manager == null) {
 					 manager = new PaletteItemManager(regId);
 					_managers.put(regId, manager);
@@ -279,7 +295,7 @@ public class PaletteItemManager implements IPaletteItemManager,
 
 		DesignerPaletteCustomizationsHelper.loadUserCustomizations(this);
 		
-		sortCategories();
+//		sortCategories();
 	}
 
 	/**
@@ -311,18 +327,25 @@ public class PaletteItemManager implements IPaletteItemManager,
 	
 	private void initTagRegistry() {
 		registerHTMLCategory();
-		if (isJSP(_tagRegId))
-			registerJSPCategory();			
+//		if (isJSP(_tagRegId))
+//			registerJSPCategory();
+		
+		/*
+		 * founderfix
+		 * 注册founderfix组件
+		 */
+		registerFounderfixCategory();
+		
 		
 		registerTagsFromTagRegistry();	
 	}
 
-	private boolean isJSP(final TagRegistryIdentifier tagRegistryId) {
-		final IContentType ct = tagRegistryId.getContentType();
-		if (JSPUtil.isJSPContentType(ct.getId()))
-			return true;
-		return false;
-	}
+//	private boolean isJSP(final TagRegistryIdentifier tagRegistryId) {
+//		final IContentType ct = tagRegistryId.getContentType();
+//		if (JSPUtil.isJSPContentType(ct.getId()))
+//			return true;
+//		return false;
+//	}
 
 	private void registerTagsFromTagRegistry() {
 		_tagRegistry = getTagRegistry(_tagRegId);
@@ -348,12 +371,34 @@ public class PaletteItemManager implements IPaletteItemManager,
 		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.HTML_DOC_TYPE);
 		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.HTML_DOC_TYPE);
 	}
+	
+	
+//	private void registerJSPCategory() {
+//		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.JSP11_DOC_TYPE);
+//		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.JSP11_DOC_TYPE);
+//	}
 
-	private void registerJSPCategory() {
-		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.JSP11_DOC_TYPE);
-		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.JSP11_DOC_TYPE);
+	
+	/*
+	 * founderfix
+	 */
+	private void registerFounderfixCategory(){
+		/*
+		 *	@author Fifteenth
+		 *		
+		 */
+//		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.FOUNDERFIX_DOC_TYPE);
+//		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.FOUNDERFIX_DOC_TYPE);
+		
+		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory("founderfix1","基础组件"); //$NON-NLS-1$ //$NON-NLS-2$
+		_paletteHelper.loadFounderfixStaticTags(founderfixStaticDrawer);
+		
+		String drawerType[] = TempStatic.categories;
+		for(int i=0;i<drawerType.length;i++){
+			TaglibPaletteDrawer founderfixDrawer = findOrCreateCategory(drawerType[i],drawerType[i]);
+			_paletteHelper.loadFounderfixTags(founderfixDrawer);
+		}
 	}
-
 //	/**
 //	 * Search Classpath entry list to find if the entry is jar library and the
 //	 * library have the tld descriptor, if have ,build a palette category mapping

@@ -20,15 +20,38 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider;
  */
 public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 
-	private AttributesTabDescriptor _attributesTabDescriptor;
-	private QuickEditTabDescriptor _quickTabDescriptor;
+//	private AttributesTabDescriptor _attributesTabDescriptor;
+//	private QuickEditTabDescriptor _quickTabDescriptor;
+	
+	
+	/*
+	 * founderfix
+	 */
+	private FixAdvanceTabDescriptor _fixAdvanceTabDescriptor;
+	private FixNormalTabDescriptor _fixNormalTabDescriptor;
+	private FixServerTabDescriptor _fixServerTabDescriptor;
+	private FixEventTabDescriptor _fixEventTabDescriptor;
+	private FixVerifyTabDescriptor _fixVerifyTabDescriptor;
+	private FixActionTabDescriptor _fixActionTabDescriptor;
 
 	/**
 	 * Constructor
 	 */
 	public WPETabDescriptorProvider() {
-		_quickTabDescriptor = new QuickEditTabDescriptor();
-		_attributesTabDescriptor = new AttributesTabDescriptor();
+//		_quickTabDescriptor = new QuickEditTabDescriptor();
+//		_attributesTabDescriptor = new AttributesTabDescriptor();
+		
+		
+		/*
+		 * founderfix
+		 * 属性页改造
+		 */
+		_fixAdvanceTabDescriptor = new FixAdvanceTabDescriptor();
+		_fixNormalTabDescriptor = new FixNormalTabDescriptor();
+		_fixServerTabDescriptor = new FixServerTabDescriptor();
+		_fixEventTabDescriptor = new FixEventTabDescriptor();
+		_fixVerifyTabDescriptor = new FixVerifyTabDescriptor();
+		_fixActionTabDescriptor = new FixActionTabDescriptor();
 	}
 	
 	/**
@@ -37,8 +60,21 @@ public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part,
 			ISelection selection) {
 
-		return new ITabDescriptor[]{_quickTabDescriptor, 
-									_attributesTabDescriptor};
+		return new ITabDescriptor[]{
+									/*
+									 * founderfix
+									 * 属性页改造
+									 */
+									_fixAdvanceTabDescriptor,
+									_fixNormalTabDescriptor,
+									_fixServerTabDescriptor,
+									_fixEventTabDescriptor,
+									_fixVerifyTabDescriptor,
+									_fixActionTabDescriptor
+//									,
+									
+//									_attributesTabDescriptor
+									};
 	}
 
 }

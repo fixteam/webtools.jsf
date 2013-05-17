@@ -10,10 +10,27 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.itemcreation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.dom.IDOMPosition;
+import org.eclipse.jst.pagedesigner.editors.palette.ITagDropSourceData;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
+import com.founder.fix.studio.wpeformdesigner.TempStatic;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.XmlPropBufferProvider;
+import com.founder.fix.studio.wpeformdesigner.dialog.DetailTable;
+
 
 /**
  * The abstract class from which all client ITagCreator instances
@@ -35,6 +52,7 @@ public abstract class AbstractTagCreator implements ITagCreator
      */
     public final Element createTag(final CreationData creationData) 
     {
+
         final ITagCreationAdvisor  advisor = selectCreationAdvisor(creationData);
         
         // adjust the creation position to accommodate required containers
@@ -58,9 +76,167 @@ public abstract class AbstractTagCreator implements ITagCreator
         // a state where there are no error flags to tell the user something is
         // missing, but may initialize the tag with an (empty) invalid value
         //ensureRequiredAttrs(ele, creationData);
+        
+        
+        
+        /*
+    	 *	@author Fifteenth
+    	 *		provider：来判断是否是自定义组件
+    	 *		
+    	 */
+        IDOMDocument domDocument = creationData.getModel().getDocument();
+    	ITagDropSourceData  provider = creationData.getTagCreationProvider();
+    	String componentType = provider.getId();
+    	
+    	
+    	Node htmlNode = AbstractTagCreatorProvider.
+    			getPointParentNode((IDOMNode)position.getContainerNode(),
+    					AbstractTagCreatorProvider.nodeName_HTML);
+    	
+    	
+    	if(htmlNode!=null){
+    		
+    		/*
+    		 *	@author Fifteenth
+    		 *		处理fix基础组件
+    		 *			目前只有明细表2013.05.07
+    		 */
+        	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
+        		//static
+        		DetailTable dialog = new DetailTable(null);
+        		if (dialog.open() == Dialog.OK) {
+        			int colCount = dialog.getColCount();
+        			int rowCount = dialog.getRowCount();
+        			String bizObjName = dialog.getBizObjName();
+        			
+        			// 把对象ele传过去修改
+        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,bizObjName,
+        					domDocument,ele,htmlNode);
+    			}else{
+    				return null;
+    			}
+        		addTagToContainer(position, ele);
+                return ele;
+        	}
+        	
+    		
+        	/*
+        	 *	@author Fifteenth
+        	 *		设属性写注释
+        	 *		对象包括:
+        	 *		1.fix(不包括基础组件)
+        	 *		2.html的input.text
+        	 */
+        	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
+        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){ 
+        		// globleXmlMap
+        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+        		
+        		
+        		// 设id属性(propIdValue)：自动生成组件编号
+        		String nodeId = AbstractTagCreatorProvider.
+            			getAutoAttrValue(htmlNode, componentType);
+            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
+            			nodeId);
+        		
+        		// 得到componentType
+        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
+        			componentType = AbstractTagCreatorProvider.tagAttrVlue_INPUT; 
+        		}
+        		
+        		// 设componentType属性
+        		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
+        		
+        		
+        		// 写注释
+        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(componentType, domDocument,nodeId);
+        		if(coment!=null){
+        			ele.appendChild(coment);
+        		}
+        	}
+        	
+        	
+			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, AbstractTagCreatorProvider.nodeName_HEAD);
+			if(headNode!=null){
+				// existJSRefList:js引用节点列表
+    			ArrayList <Node>existJSRefList = new ArrayList<Node>();
+    			// existJSRefTextList:js引用节点内容列表
+    			ArrayList <String> existJSRefTextList =  new ArrayList<String>();
+    			
+    			NodeList childNodeList = headNode.getChildNodes();
+    			if(childNodeList!=null){
+    				for(int childNum=0;childNum<childNodeList.getLength();childNum++){
+    					if(childNodeList.item(childNum).getNodeName().
+    							equals(AbstractTagCreatorProvider.nodeName_SCRIPT)){
+    						existJSRefList.add(childNodeList.item(childNum));
+    						existJSRefTextList.add(
+    								childNodeList.item(childNum).
+    								getAttributes().getNamedItem(
+    										AbstractTagCreatorProvider.tagAttr_TYPE).
+    										getNodeValue());
+    					}
+    				}
+    			}
+    			
+    			// 组件属性列表，用于得到js引用
+    			String key = AbstractTagCreatorProvider.getGlobleMapKey(componentType);
+    			List <HashMap<String,Object>>propertylist = XmlPropBufferProvider.
+    					globleXmlMap.get(key);
+    			
+    			if(propertylist!=null){
+    				/*
+    				 *	@author Fifteenth
+    				 *		得到组件的引用
+    				 *
+    				 *		propertylist.get(index):index=0
+    				 */
+    				Object object = propertylist.get(0).get("jsref"); //$NON-NLS-1$
+    				if(object instanceof ArrayList){
+    					
+    					// jsRefList组件的引用列表
+    					ArrayList jsRefList = (ArrayList)object;
+    					int jsLength = jsRefList.size();
+    					for(int jsRefNum=0;jsRefNum<jsRefList.size();jsRefNum++){
+    						/*
+    						 *	@author Fifteenth
+    						 *		1.组件已用过，refnum++
+    						 *		2.组件未引用过，生成
+    						 */
+    						if(existJSRefTextList.contains(jsRefList.get(jsRefNum))){
+    							for(int compareNum=0;compareNum<existJSRefTextList.size();compareNum++){
+    								if(jsRefList.get(jsRefNum).equals(existJSRefTextList.get(compareNum))){
+    									Node modifyRefNode = existJSRefList.get(compareNum);
+    									int refNum = Integer.valueOf(modifyRefNode.getAttributes().getNamedItem("refNum").getNodeValue()); //$NON-NLS-1$
+    									refNum++;
+    									modifyRefNode.getAttributes().
+    									getNamedItem(AbstractTagCreatorProvider.tagAttr_REFNUM).
+    									setNodeValue(refNum+""); //$NON-NLS-1$ 
+    								}
+    							}
+    						}else{
+    							Element javascript = creationData.getModel().getDocument().
+        								createElement(
+        										AbstractTagCreatorProvider.nodeName_SCRIPT);
+    							
+        	        			javascript.setAttribute(AbstractTagCreatorProvider.tagAttr_TYPE, 
+        	        					jsRefList.get(jsRefNum).toString());
+        	        			javascript.setAttribute(
+        	        					AbstractTagCreatorProvider.tagAttr_REFNUM, "1"); //$NON-NLS-1$ 
+        	        			headNode.appendChild(javascript);
+        	        			// 加入引用后需要自己设置换行
+        	        			if(jsRefNum==1||jsRefNum < jsLength-1){
+        	        				headNode.appendChild(creationData.getModel().
+        	        						getDocument().createTextNode("\r")); //$NON-NLS-1$
+        	        			}
+    						}
+    					}
+    				}
+    			}
+			}
+    	}
 
+    	
         addTagToContainer(position, ele);
-
         return ele;
     }
 
@@ -127,6 +303,12 @@ public abstract class AbstractTagCreator implements ITagCreator
         }
 
         if (position.getNextSiblingNode() == null) {
+        	/*
+        	 * founderfix
+        	 * 代码注释
+        	 * 
+        	 * position.getContainerNode()：父节点
+        	 */
             position.getContainerNode().appendChild(tagElement);
         } else {
             position.getContainerNode().insertBefore(tagElement,

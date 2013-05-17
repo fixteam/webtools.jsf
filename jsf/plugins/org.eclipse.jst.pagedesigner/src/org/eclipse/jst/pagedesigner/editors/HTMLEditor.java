@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.editors;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -67,17 +69,24 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+//import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IStorageEditorInput;
+//import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
+//import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.contexts.IContextService;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
+import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
@@ -91,6 +100,13 @@ import org.eclipse.wst.sse.ui.internal.provisional.extensions.ISourceEditingText
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.ui.internal.provisional.IDOMSourceEditingTextTools;
 import org.w3c.dom.Document;
+
+import com.founder.fix.studio.platformdesigner.views.BizObjFieldsView;
+import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
+//import com.founder.fix.studio.formdesigner.common.Utility;
+//import com.founder.fix.studio.platformdesigner.views.BizObjFieldsView;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.HTMLEditorProvider;
+import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.properties.ConstantVariable;
 
 /**
  * The HTMLEditor is a multi paged editor. It will use the StructuredTextEditor
@@ -163,7 +179,11 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 	private DesignPageActionContributor _designPageActionContributor;
 
 	private IStructuredModel _model;
-
+	
+	
+	
+	public static final String ID = "org.eclipse.jst.pagedesigner.editors.HTMLEditor"; //$NON-NLS-1$
+	
     // TODO:This class is never used locally
 //	private class TextInputListener implements ITextInputListener {
 //		public void inputDocumentAboutToBeChanged(IDocument oldInput,
@@ -546,6 +566,41 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 	public void doSave(IProgressMonitor monitor) {
 		_textEditor.doSave(monitor);
 		firePersistenceEvent(PersistenceEventType.SAVED);
+		
+		
+		
+		/*
+		 *	@author Fifteenth
+		 *		字符串处理
+		 */
+		IEditorPart htmlEditor =  getActiveEditor();
+		
+		String formPagePath = ((FileEditorInput)htmlEditor.getEditorInput()).getFile().getLocation().toString();
+		IDocument document;
+		
+        if(htmlEditor instanceof AbstractDecoratedTextEditor
+        		){
+        	document = ((AbstractDecoratedTextEditor) 
+    				htmlEditor).getDocumentProvider().getDocument(htmlEditor.getEditorInput());
+            
+            //得到文本内容
+            String doucumentText = document.get();
+            HTMLEditorProvider.writeJS(formPagePath,doucumentText);
+        }else if(htmlEditor instanceof SimpleGraphicalEditor){
+        	BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader(formPagePath));
+				String doucumentText=""; //$NON-NLS-1$
+				String line=""; //$NON-NLS-1$
+	            while((line = in.readLine())!=null){
+	            	doucumentText += line+"\r"; //$NON-NLS-1$
+	            }
+	            HTMLEditorProvider.writeJS(formPagePath,doucumentText);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 	}
 
 	/*
@@ -814,6 +869,66 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			_log.error("Error.HTMLEditor.5", e); //$NON-NLS-1$
 		}
 		setPartName(input.getName());
+		
+		
+		
+		IPartListener2 mylistener = new IPartListener2() {
+
+			public void partDeactivated(IWorkbenchPartReference partRef) {
+				//
+			}
+
+			public void partActivated(IWorkbenchPartReference partRef) {
+				
+				BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				
+				
+				/*
+				 *	@author Fifteenth
+				 *		以这个方式激活属性页，原理还不懂
+				 *		q:为什么要激活？
+				 *		a:因为绑定字段走的是修改属性页属性的方式
+				 *
+				 *		
+				 *		这么搞有个很严重的bug
+				 */
+//				IWorkbenchPage page = PlatformUI.getWorkbench()
+//						.getActiveWorkbenchWindow().getActivePage();
+//				IViewPart sheet = page.findView(IPageLayout.ID_PROP_SHEET);
+//				sheet.setFocus();
+			}
+
+			public void partBroughtToTop(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void partClosed(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void partOpened(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void partHidden(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void partVisible(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void partInputChanged(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		this.getSite().getPage().addPartListener(mylistener);
 	}
 
 	/*
@@ -1213,6 +1328,7 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 				result = _textEditor;
 			}
 		}
+		
 		return result;
 	}
 
@@ -1298,4 +1414,15 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 		}
 	}
 
+	
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+		if(getActiveEditor().getEditorInput() instanceof FileEditorInput){
+			FormPageUtil.currentFormPagePath = ((FileEditorInput)getActiveEditor().
+					getEditorInput()).getFile().getLocation().toString();
+		}
+		
+		super.setFocus();
+	}
 }

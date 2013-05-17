@@ -18,6 +18,8 @@ import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jst.pagedesigner.PDPlugin;
 import org.eclipse.jst.pagedesigner.css2.ICSSStyle;
 import org.eclipse.jst.pagedesigner.css2.font.ICSSFont;
 import org.eclipse.jst.pagedesigner.css2.layout.TextLayoutSupport;
@@ -27,6 +29,7 @@ import org.eclipse.jst.pagedesigner.css2.provider.DimensionInfo;
 import org.eclipse.jst.pagedesigner.css2.style.DefaultStyle;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
@@ -61,6 +64,82 @@ public class ButtonWidgetProvider extends AbstractWidgetProvider {
 		super(style);
 	}
 
+	
+	/*
+	 * founderfix
+	 * 扩展
+	 * 
+	 * 定制图片
+	 */
+	private static final String NOPIC_IMAGE_NAME = "PD_nopic.jpg"; //$NON-NLS-1$
+
+	private static Image _noPicImage;
+
+	private static int _noPicWidth;
+
+	private static int _noPicHeight;
+	
+	
+	/**
+	 * the image
+	 */
+	protected Image _image;
+
+	/**
+	 * image width
+	 */
+	protected int _imageWidth;
+
+	/**
+	 * image height
+	 */
+	protected int _imageHeight;
+	
+	
+	/**
+	 * @param image
+	 * @param style
+	 */
+	public ButtonWidgetProvider(Image image, ICSSStyle style) {
+		super(style);
+
+		// set up image and image width/height
+		org.eclipse.swt.graphics.Rectangle rect = null;
+		if (image != null) {
+			rect = image.getBounds();
+			if (rect.width <= 0 || rect.height <= 0) {
+				useNoPicImage();
+			} else {
+				_image = image;
+				_imageWidth = rect.width;
+				_imageHeight = rect.height;
+			}
+		} else {
+			useNoPicImage();
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	private void useNoPicImage() {
+		if (_noPicImage == null || _noPicImage.isDisposed()) {
+			ImageDescriptor noPicImageDesc = PDPlugin.getDefault()
+					.getImageDescriptor(NOPIC_IMAGE_NAME);
+			_noPicImage = noPicImageDesc.createImage();
+			org.eclipse.swt.graphics.Rectangle rect = _noPicImage.getBounds();
+			_noPicWidth = rect.width;
+			_noPicHeight = rect.height;
+		}
+		_image = _noPicImage;
+		_imageWidth = _noPicWidth;
+		_imageHeight = _noPicHeight;
+	}
+	
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

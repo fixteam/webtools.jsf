@@ -51,6 +51,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import com.founder.fix.studio.wpeformdesigner.TempStatic;
+
 /**
  * utility class for JSP related information.
  * 
@@ -91,6 +93,11 @@ public class JSPUtil {
 	 */
 	public static String getOrCreatePrefix(IDOMModel model, String uri,
 			String defaultPrefix, Node[] nodes) {
+		
+		if(TempStatic.getCategoriesList().contains(uri)
+				||TempStatic.staticCategory.equals(uri)){
+			return ""; //$NON-NLS-1$
+		}
 	
 		String prefix = getPrefix(model, uri);
 		if (prefix != null) {
@@ -98,7 +105,7 @@ public class JSPUtil {
 		}
 
 		prefix = findUnusedPrefix(model, defaultPrefix);
-
+		
 		//need proper API to determine xml type... this may need to change in future
 		if (! model.getDocument().isXMLType()){
 			// TODO: should create the taglib inside the IDOMModel

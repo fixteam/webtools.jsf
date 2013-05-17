@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.itemcreation;
 
-import java.util.Collection;
+//import java.util.Collection;
 
 import org.eclipse.jst.pagedesigner.dom.DOMPositionHelper;
 import org.eclipse.jst.pagedesigner.dom.IDOMPosition;
@@ -90,19 +90,26 @@ public abstract class AbstractTagCreationAdvisor implements ITagCreationAdvisor
         //position = getContainerCreationCommands(position);
         ContainerCreationCommand command = getContainerCreationCommand(position);
         
+        
         if (command != null)
         {
-            command.execute();
-            Collection<IDOMPosition>  collection = command.getResult();
-            
-            if (collection.size()==1)
-            {
-                position = collection.iterator().next(); 
-            }
-            else
-            {
-                position = null;
-            }
+        	
+        	/*
+             * founderfix
+             * 去掉当外层没有form的时候会自动增加
+             */
+//            command.execute();
+//            Collection<IDOMPosition>  collection = command.getResult();
+//            
+//            if (collection.size()==1)
+//            {
+//                position = collection.iterator().next(); 
+//            }
+//            else
+//            {
+//                position = null;
+//            }
+        	
         }
 
         if (position == null) {

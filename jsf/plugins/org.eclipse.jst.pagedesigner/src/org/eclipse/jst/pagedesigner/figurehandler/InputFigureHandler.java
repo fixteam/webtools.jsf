@@ -13,7 +13,7 @@ package org.eclipse.jst.pagedesigner.figurehandler;
 
 import org.eclipse.jst.jsf.common.ui.JSFUICommonPlugin;
 import org.eclipse.jst.jsf.common.ui.internal.utils.JSFSharedImages;
-import org.eclipse.jst.pagedesigner.IHTMLConstants;
+//import org.eclipse.jst.pagedesigner.IHTMLConstants;
 import org.eclipse.jst.pagedesigner.css2.property.ICSSPropertyID;
 import org.eclipse.jst.pagedesigner.css2.provider.ICSSWidgetProvider;
 import org.eclipse.jst.pagedesigner.css2.widget.ButtonWidgetProvider;
@@ -34,6 +34,12 @@ import org.w3c.dom.Element;
 /*package*/ class InputFigureHandler extends WidgetFigureHandler {
 	private Image _image;
 
+	
+	/*
+	 * founderfix
+	 * 代码说明：
+	 * 该方法与ImgFigureHandler中的一模一样
+	 */
 	void initializeImage(Element node) {
 		if (_image != null) {
 			_image.dispose();
@@ -49,12 +55,29 @@ import org.w3c.dom.Element;
 	}
 
 	ICSSWidgetProvider getButtonProvider(Element node) {
-		ButtonWidgetProvider provider = new ButtonWidgetProvider(
-				getCSSStyle(node));
-		provider.setValue(getButtonValue(node));
+		/*
+		 * founderxi
+		 * 改造
+		 * 
+		 * 能够定制自己的图片
+		 */
+//		ButtonWidgetProvider provider = new ButtonWidgetProvider(
+//				getCSSStyle(node));
+//		provider.setValue(getButtonValue(node));
+//		return provider;
+		
+		/*
+		 * founderfxi
+		 * 代码说明
+		 * 
+		 * 移花接木
+		 */
+		initializeImage(node);
+		ImageWidgetProvider provider = new ImageWidgetProvider(_image,
+				getCSSStyle(node),"fix"); //$NON-NLS-1$
 		return provider;
 	}
-
+ 
 	ICSSWidgetProvider getFileProvider(Element node) {
 		// ICSSWidgetProvider textprovider = getTextInputProvider();
 		// // XXX: should we use the defaultstyle for the button?
@@ -124,19 +147,19 @@ import org.w3c.dom.Element;
 		return DOMUtil.getAttributeIgnoreCase(node, "value"); //$NON-NLS-1$
 	}
 
-	private String getButtonValue(Element node) {
-		String value = getValue(node);
-		if (value == null) {
-			String type = DOMUtil.getAttributeIgnoreCase(node,
-					ICSSPropertyID.ATTR_TYPE);
-			if (type.equalsIgnoreCase(ICSSPropertyID.VAL_SUBMIT)) {
-				return IHTMLConstants.SUBMIT_LABEL;
-			} else if (type.equalsIgnoreCase(ICSSPropertyID.VAL_RESET)) {
-				return IHTMLConstants.RESET_LABEL;
-			}
-		}
-		return value;
-	}
+//	private String getButtonValue(Element node) {
+//		String value = getValue(node);
+//		if (value == null) {
+//			String type = DOMUtil.getAttributeIgnoreCase(node,
+//					ICSSPropertyID.ATTR_TYPE);
+//			if (type.equalsIgnoreCase(ICSSPropertyID.VAL_SUBMIT)) {
+//				return IHTMLConstants.SUBMIT_LABEL;
+//			} else if (type.equalsIgnoreCase(ICSSPropertyID.VAL_RESET)) {
+//				return IHTMLConstants.RESET_LABEL;
+//			}
+//		}
+//		return value;
+//	}
 
 	/**
 	 * @return the widget provider

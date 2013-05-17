@@ -11,7 +11,8 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.properties;
 
-import org.eclipse.jst.pagedesigner.meta.internal.CategoryNameComparator;
+//import org.eclipse.jst.pagedesigner.meta.internal.CategoryNameComparator;
+import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
 
@@ -40,19 +41,33 @@ public class AttributePropertySheetPage extends PropertySheetPage {
 	 * @author mengbo
 	 * @version 1.5
 	 */
-	private static class MySorter extends PropertySheetSorter {
-		public int compareCategories(String categoryA, String categoryB) {
-			return CategoryNameComparator.getInstance().compare(categoryA,
-					categoryB);
+//	private static class MySorter extends PropertySheetSorter {
+//		public int compareCategories(String categoryA, String categoryB) {
+//			return CategoryNameComparator.getInstance().compare(categoryA,
+//					categoryB);
+//		}
+//	}
+	
+	PropertySheetSorter sorter = new PropertySheetSorter() 
+	{
+		public int compare(IPropertySheetEntry entryA,
+				IPropertySheetEntry entryB) 
+		{
+			//return getCollator().compare(entryA.getDescription(),
+			//		entryB.getDescription());
+			
+			//把排序语法去掉，放两个空字符，表示不进行排序 
+			//只认属性的先进先出
+			return getCollator().compare("","");//$NON-NLS-1$//$NON-NLS-2$
 		}
-	}
+	};
 
 	/**
 	 * Constructor
 	 */
 	public AttributePropertySheetPage() {
 		super();
-		setSorter(new MySorter());
+		setSorter(sorter);
 	}
 
 //	public void createControl(Composite parent) {

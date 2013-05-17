@@ -1,3 +1,16 @@
-#Sun May 27 16:04:56 EDT 2007
 eclipse.preferences.version=1
+encoding//src/org/eclipse/jst/pagedesigner/css2/widget/ButtonWidgetProvider.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/editors/HTMLEditor.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/editors/palette/MetadataTagDropSourceData.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/editors/palette/impl/PaletteHelper.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/editors/palette/impl/PaletteItemManager.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/figurehandler/FigureFactory.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/figurehandler/InputFigureHandler.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/itemcreation/AbstractTagCreationAdvisor.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/itemcreation/AbstractTagCreator.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/itemcreation/CreationData.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/properties/AttributePropertySheetPage.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/properties/internal/Messages.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/properties/internal/WPETabDescriptorProvider.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/utils/JSPUtil.java=UTF-8
 encoding/<project>=ISO-8859-1
