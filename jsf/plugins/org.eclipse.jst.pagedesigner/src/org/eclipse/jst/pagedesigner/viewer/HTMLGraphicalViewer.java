@@ -359,18 +359,18 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 		 *	@author Fifteenth
 		 *		select field
 		 */
-		ElementStyleImpl impl = (ElementStyleImpl)((ElementEditPart)editpart).getDOMNode();
-		Node commentNode = ModelCommet.getNode(impl, ""); //$NON-NLS-1$
-		
-		if(!FixPropertySource.isInit){
-			FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
-			FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
-			fixPropertySource.getPropertyDescriptors();
+		if(editpart instanceof ElementEditPart){
+			ElementStyleImpl impl = (ElementStyleImpl)((ElementEditPart)editpart).getDOMNode();
+			Node commentNode = ModelCommet.getNode(impl, ""); //$NON-NLS-1$
+			
+			if(!FixPropertySource.isInit){
+				FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
+				FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
+				fixPropertySource.getPropertyDescriptors();
+			}
+			String selectField = BizObjFieldsView.getSelectionField(commentNode);
+			BizObjFieldsView.setSelection(selectField);
 		}
-		
-		String selectField = BizObjFieldsView.getSelectionField(commentNode);
-		
-		BizObjFieldsView.setSelection(selectField);
 		
 		internalToObjectMode();
 		super.appendSelection(editpart); // super will fireSelectionChanged.
