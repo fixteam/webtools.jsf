@@ -879,8 +879,10 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			}
 
 			public void partActivated(IWorkbenchPartReference partRef) {
-				
-				BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				// BizObjFieldsView
+				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
+					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				}
 				
 				
 				/*
