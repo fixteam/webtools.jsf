@@ -96,6 +96,9 @@ public class ConverterFactoryRegistry
     {
         String uri = CMUtil.getElementNamespaceURI(ele);
         
+        /*
+         *	@author Fifteenth
+         */
         if(ele.getTagName().equals("span")){ //$NON-NLS-1$
         	uri = "founderfix"; //$NON-NLS-1$
         }
