@@ -101,12 +101,8 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.ui.internal.provisional.IDOMSourceEditingTextTools;
 import org.w3c.dom.Document;
 
-import com.founder.fix.studio.platformdesigner.views.BizObjFieldsView;
-import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
-//import com.founder.fix.studio.formdesigner.common.Utility;
-//import com.founder.fix.studio.platformdesigner.views.BizObjFieldsView;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.HTMLEditorProvider;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.properties.ConstantVariable;
+import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.fixwpe.wpeformdesigner.HTMLEditorProvider;
 
 /**
  * The HTMLEditor is a multi paged editor. It will use the StructuredTextEditor
@@ -880,9 +876,9 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 
 			public void partActivated(IWorkbenchPartReference partRef) {
 				// BizObjFieldsView
-				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
-					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
-				}
+//				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
+//					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+//				}
 				
 				
 				/*

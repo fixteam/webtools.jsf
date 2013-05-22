@@ -52,8 +52,9 @@ import org.eclipse.jst.pagedesigner.editors.palette.IPaletteItemManager;
 import org.eclipse.wst.html.core.internal.contentmodel.HTMLCMDocumentFactory;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.contentmodel.CMDocType;
-import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
-import com.founder.fix.studio.wpeformdesigner.TempStatic;
+
+import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.TempStatic;
 
 /**
  *  Manages tag library palette by palette context.   Capable of handling JSP and XHTML content types.

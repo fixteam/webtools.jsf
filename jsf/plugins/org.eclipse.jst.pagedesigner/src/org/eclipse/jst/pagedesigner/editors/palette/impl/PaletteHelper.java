@@ -55,8 +55,9 @@ import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMElementDeclaration;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMNamedNodeMap;
 
-import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.XmlPropBufferProvider;
+import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
+
 
 
 /**

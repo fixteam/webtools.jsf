@@ -25,7 +25,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
 
-import com.founder.fix.studio.wpeformdesigner.TempStatic;
+import com.founder.fix.base.wpe.TempStatic;
 
 /**
  * Default IDTInfoFactory implementation.

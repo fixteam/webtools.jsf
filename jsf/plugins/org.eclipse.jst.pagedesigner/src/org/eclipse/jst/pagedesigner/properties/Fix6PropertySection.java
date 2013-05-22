@@ -22,7 +22,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.wst.sse.core.internal.provisional.INodeAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.properties.FixPropertySourceProvider;
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.FixPropertySourceProvider;
 /**
  * Mainly copied from AdvancedPropertySection. But extend it to allow setting
  * PropertySourceProvider.

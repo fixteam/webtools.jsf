@@ -16,8 +16,7 @@ import java.util.Vector;
 import org.eclipse.ui.views.properties.tabbed.AbstractTabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
 
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.properties.ConstantVariable;
-
+import com.founder.fix.base.wpe.ConstantVariable;
 /**
  * Quick Edit Tab Descriptor
  */

@@ -25,7 +25,7 @@ import org.eclipse.jst.pagedesigner.converter.ITagConverter;
 import org.eclipse.swt.graphics.Image;
 import org.w3c.dom.Element;
 
-import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
+import com.founder.fix.base.wpe.FormPageUtil;
 
 
 /**

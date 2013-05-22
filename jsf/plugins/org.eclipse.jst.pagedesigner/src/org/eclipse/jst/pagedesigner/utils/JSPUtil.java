@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import com.founder.fix.studio.wpeformdesigner.TempStatic;
+import com.founder.fix.base.wpe.TempStatic;
 
 /**
  * utility class for JSP related information.

@@ -20,11 +20,11 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.founder.fix.studio.wpeformdesigner.FormPageUtil;
-import com.founder.fix.studio.wpeformdesigner.TempStatic;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
-import com.founder.fix.studio.wpeformdesigner.jst.pagedesigner.itemcreation.XmlPropBufferProvider;
-import com.founder.fix.studio.wpeformdesigner.dialog.DetailTable;
+import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.TempStatic;
+import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
+import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 
 
 /**
