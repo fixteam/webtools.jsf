@@ -101,7 +101,9 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.ui.internal.provisional.IDOMSourceEditingTextTools;
 import org.w3c.dom.Document;
 
+import com.founder.fix.base.wpe.ConstantVariable;
 import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.fixwpe.platformdesigner.views.BizObjFieldsView;
 import com.founder.fix.fixwpe.wpeformdesigner.HTMLEditorProvider;
 
 /**
@@ -876,9 +878,9 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 
 			public void partActivated(IWorkbenchPartReference partRef) {
 				// BizObjFieldsView
-//				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
-//					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
-//				}
+				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
+					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				}
 				
 				
 				/*
