@@ -148,6 +148,7 @@ Export-Package: org.eclipse.jst.pagedesigner;
    org.eclipse.swt.graphics,
    org.eclipse.jst.pagedesigner.css2.style,
    org.w3c.dom",
+ org.eclipse.jst.pagedesigner.converter.founderfix,
  org.eclipse.jst.pagedesigner.converter.html;uses:="org.eclipse.jst.pagedesigner.converter,org.w3c.dom",
  org.eclipse.jst.pagedesigner.converter.jsp;
   uses:="org.eclipse.core.runtime,
