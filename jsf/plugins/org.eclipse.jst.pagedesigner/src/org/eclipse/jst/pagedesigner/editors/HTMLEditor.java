@@ -103,7 +103,7 @@ import org.w3c.dom.Document;
 
 import com.founder.fix.base.wpe.ConstantVariable;
 import com.founder.fix.base.wpe.FormPageUtil;
-import com.founder.fix.fixwpe.platformdesigner.views.BizObjFieldsView;
+import com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView;
 import com.founder.fix.fixwpe.wpeformdesigner.HTMLEditorProvider;
 
 /**
@@ -877,9 +877,10 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			}
 
 			public void partActivated(IWorkbenchPartReference partRef) {
-				// BizObjFieldsView
-				if(partRef.getId().contains(BizObjFieldsView.viewPartID)){ 
-					BizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				// BizObjFieldsView   com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView
+				if(partRef.getId().contains(WPEBizObjFieldsView.viewPartID)
+						||partRef.getId().equals("com.founder.fix.fixwpe.platformdesigner.views.BizObjFieldsView")){  //$NON-NLS-1$
+					WPEBizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
 				}
 				
 				

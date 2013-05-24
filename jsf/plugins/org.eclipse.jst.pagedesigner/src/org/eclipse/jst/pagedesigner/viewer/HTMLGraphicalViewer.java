@@ -40,7 +40,7 @@ import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.FixPro
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.FixPropertySourceProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ModelCommet;
 
-import com.founder.fix.fixwpe.platformdesigner.views.BizObjFieldsView;
+import com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView;
 
 
 /**
@@ -370,8 +370,8 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 				FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
 				fixPropertySource.getPropertyDescriptors();
 			}
-			String selectField = BizObjFieldsView.getSelectionField(commentNode);
-			BizObjFieldsView.setSelection(selectField);
+			String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);
+			WPEBizObjFieldsView.setSelection(selectField);
 		}
 		
 		internalToObjectMode();
