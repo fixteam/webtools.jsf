@@ -84,6 +84,7 @@ public abstract class AbstractTagCreator implements ITagCreator
     	String componentType = provider.getId();
     	
     	
+    	// 得到htmlNode
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
@@ -105,7 +106,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         			int rowCount = dialog.getRowCount();
         			String bizObjName = dialog.getBizObjName();
         			
-        			// 把对象ele传过去修改
+        			// 引用传递修改对象
         			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,bizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
     			}else{
@@ -115,7 +116,6 @@ public abstract class AbstractTagCreator implements ITagCreator
                 return ele;
         	}
         	
-    		
         	/*
         	 *	@author Fifteenth
         	 *		设属性写注释
@@ -151,10 +151,11 @@ public abstract class AbstractTagCreator implements ITagCreator
         		}
         	}
         	
-        	
-			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, AbstractTagCreatorProvider.nodeName_HEAD);
+        	// 得到headNode
+			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, 
+					AbstractTagCreatorProvider.nodeName_HEAD);
 			
-			//引用
+			// 写引用
 			if(headNode!=null){
 				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
 						componentType, AbstractTagCreatorProvider.jsRef);
@@ -163,6 +164,26 @@ public abstract class AbstractTagCreator implements ITagCreator
 			}
     	}
 
+    	
+    	
+    	Node tableNode = AbstractTagCreatorProvider.
+    			getPointParentNode((IDOMNode)position.getContainerNode(),
+    					AbstractTagCreatorProvider.nodeName_HTML);
+    	// tableNode为非明细表
+    	if(!tableNode.getAttributes().
+				getNamedItem("isDetail").getNodeValue().equals("true")){ //$NON-NLS-1$ //$NON-NLS-2$
+    		while(!tableNode.getParentNode().getNodeName().equals(
+        			AbstractTagCreatorProvider.nodeName_BODY)){
+        		// 明细表
+        		if(tableNode.getAttributes().
+        				getNamedItem("isDetail").getNodeValue().equals("true")){ //$NON-NLS-1$ //$NON-NLS-2$
+        			break;
+        		}
+        	}
+    	}
+    	
+    	
+    	
     	
         addTagToContainer(position, ele);
         return ele;
