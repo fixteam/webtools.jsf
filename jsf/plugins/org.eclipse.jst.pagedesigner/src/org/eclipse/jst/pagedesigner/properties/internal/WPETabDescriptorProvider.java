@@ -20,7 +20,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider;
  */
 public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 
-//	private AttributesTabDescriptor _attributesTabDescriptor;
+	private AttributesTabDescriptor _attributesTabDescriptor;
 //	private QuickEditTabDescriptor _quickTabDescriptor;
 	
 	
@@ -39,7 +39,7 @@ public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 	 */
 	public WPETabDescriptorProvider() {
 //		_quickTabDescriptor = new QuickEditTabDescriptor();
-//		_attributesTabDescriptor = new AttributesTabDescriptor();
+		_attributesTabDescriptor = new AttributesTabDescriptor();
 		
 		
 		/*
@@ -71,9 +71,8 @@ public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 									_fixEventTabDescriptor,
 									_fixVerifyTabDescriptor,
 									_fixActionTabDescriptor
-//									,
-									
-//									_attributesTabDescriptor
+									,
+									_attributesTabDescriptor
 									};
 	}
 
