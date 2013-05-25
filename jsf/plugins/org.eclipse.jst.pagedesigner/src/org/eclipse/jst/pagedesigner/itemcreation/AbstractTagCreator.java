@@ -83,6 +83,8 @@ public abstract class AbstractTagCreator implements ITagCreator
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
     	String componentType = provider.getId();
     	
+    	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+    	
     	
     	// 得到htmlNode
     	Node htmlNode = AbstractTagCreatorProvider.
@@ -98,13 +100,25 @@ public abstract class AbstractTagCreator implements ITagCreator
     		 *			目前只有明细表2013.05.07
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
-        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+//        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
         		//static
         		DetailTable dialog = new DetailTable(null);
         		if (dialog.open() == Dialog.OK) {
         			int colCount = dialog.getColCount();
         			int rowCount = dialog.getRowCount();
         			String bizObjName = dialog.getBizObjName();
+        			
+        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
+        					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
+        			if(dialog.isDeatailTable==true){
+        				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
+        						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
+        				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_BIZOBJ,
+            					bizObjName);
+        			}else{
+        				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
+        						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
+        			}
         			
         			// 引用传递修改对象
         			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,bizObjName,
@@ -126,7 +140,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){ 
         		// globleXmlMap
-        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+//        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
         		
         		
         		// 设id属性(propIdValue)：自动生成组件编号
@@ -137,15 +151,48 @@ public abstract class AbstractTagCreator implements ITagCreator
         		
         		// 得到componentType
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-        			componentType = AbstractTagCreatorProvider.tagAttrVlue_INPUT; 
+        			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
         		}
         		
         		// 设componentType属性
         		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         		
         		
+        		
+        		// 是否明细表组件
+            	Node tableNode = AbstractTagCreatorProvider.
+            			getPointParentNode((IDOMNode)position.getContainerNode(),
+            					AbstractTagCreatorProvider.nodeName_TABLE);
+            	
+            	Boolean isDetailTag = false;
+            	
+            	if(tableNode!=null){
+            		// tableNode为非明细表
+                	if(!tableNode.getAttributes().
+            				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL).
+            				getNodeValue().equals(AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                		while(!tableNode.getParentNode().getNodeName().equals(
+                    			AbstractTagCreatorProvider.nodeName_BODY)){
+                			tableNode = tableNode.getParentNode();
+                			
+                			if(tableNode.getNodeName().equals(AbstractTagCreatorProvider.nodeName_TABLE)){
+                				// 明细表
+                        		if(tableNode.getAttributes().
+                        				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
+                        						).getNodeValue().equals(
+                        						AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                        			isDetailTag = true;
+                        			break;
+                        		}
+                			}
+                    	}
+                	}else{
+                		isDetailTag = true;
+                	}
+            	}
+        		
         		// 写注释
-        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(componentType, domDocument,nodeId);
+        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(componentType, domDocument,nodeId,isDetailTag);
         		if(coment!=null){
         			ele.appendChild(coment);
         		}
@@ -164,25 +211,6 @@ public abstract class AbstractTagCreator implements ITagCreator
 			}
     	}
 
-    	
-    	
-    	Node tableNode = AbstractTagCreatorProvider.
-    			getPointParentNode((IDOMNode)position.getContainerNode(),
-    					AbstractTagCreatorProvider.nodeName_HTML);
-    	// tableNode为非明细表
-    	if(!tableNode.getAttributes().
-				getNamedItem("isDetail").getNodeValue().equals("true")){ //$NON-NLS-1$ //$NON-NLS-2$
-    		while(!tableNode.getParentNode().getNodeName().equals(
-        			AbstractTagCreatorProvider.nodeName_BODY)){
-        		// 明细表
-        		if(tableNode.getAttributes().
-        				getNamedItem("isDetail").getNodeValue().equals("true")){ //$NON-NLS-1$ //$NON-NLS-2$
-        			break;
-        		}
-        	}
-    	}
-    	
-    	
     	
     	
         addTagToContainer(position, ele);
