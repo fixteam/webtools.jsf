@@ -879,7 +879,7 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			public void partActivated(IWorkbenchPartReference partRef) {
 				// BizObjFieldsView   com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView
 				if(partRef.getId().contains(WPEBizObjFieldsView.viewPartID)
-						||partRef.getId().equals("com.founder.fix.fixwpe.platformdesigner.views.BizObjFieldsView")){  //$NON-NLS-1$
+						||partRef.getId().equals(WPEBizObjFieldsView.viewPartID)){
 					WPEBizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
 				}
 				

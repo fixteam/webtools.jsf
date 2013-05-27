@@ -18,6 +18,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import com.founder.fix.base.wpe.FormPageUtil;
@@ -25,6 +26,7 @@ import com.founder.fix.base.wpe.TempStatic;
 import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ConstantProperty;
 
 
 /**
@@ -165,34 +167,45 @@ public abstract class AbstractTagCreator implements ITagCreator
             					AbstractTagCreatorProvider.nodeName_TABLE);
             	
             	Boolean isDetailTag = false;
+            	String bizObjTypes = ConstantProperty.bizObjTypes[0]
+            			+"-"+ConstantProperty.typeMainValue; //$NON-NLS-1$
             	
             	if(tableNode!=null){
             		// tableNode为非明细表
-                	if(!tableNode.getAttributes().
-            				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL).
-            				getNodeValue().equals(AbstractTagCreatorProvider.tagAttrValue_TRUE)){
-                		while(!tableNode.getParentNode().getNodeName().equals(
-                    			AbstractTagCreatorProvider.nodeName_BODY)){
-                			tableNode = tableNode.getParentNode();
-                			
-                			if(tableNode.getNodeName().equals(AbstractTagCreatorProvider.nodeName_TABLE)){
-                				// 明细表
-                        		if(tableNode.getAttributes().
-                        				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-                        						).getNodeValue().equals(
-                        						AbstractTagCreatorProvider.tagAttrValue_TRUE)){
-                        			isDetailTag = true;
-                        			break;
-                        		}
-                			}
+            		NamedNodeMap nodeAttributes = tableNode.getAttributes();
+            		Node attrNode = nodeAttributes.getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL);
+            		if(attrNode != null){
+            			if(!tableNode.getAttributes().
+                				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL).
+                				getNodeValue().equals(AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                    		while(!tableNode.getParentNode().getNodeName().equals(
+                        			AbstractTagCreatorProvider.nodeName_BODY)){
+                    			tableNode = tableNode.getParentNode();
+                    			
+                    			if(tableNode.getNodeName().equals(
+                    					AbstractTagCreatorProvider.nodeName_TABLE)){
+                    				// 明细表
+                            		if(tableNode.getAttributes().
+                            				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
+                            						).getNodeValue().equals(
+                            						AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                            			isDetailTag = true;
+                            			bizObjTypes = ConstantProperty.bizObjTypes[1]+"-" //$NON-NLS-1$
+                            					+tableNode.getAttributes().getNamedItem(
+                            							AbstractTagCreatorProvider.tagAttr_ID).getNodeValue();
+                            			break;
+                            		}
+                    			}
+                        	}
+                    	}else{
+                    		isDetailTag = true;
                     	}
-                	}else{
-                		isDetailTag = true;
-                	}
+            		}
             	}
         		
         		// 写注释
-        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(componentType, domDocument,nodeId,isDetailTag);
+        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
+        				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
         		if(coment!=null){
         			ele.appendChild(coment);
         		}
