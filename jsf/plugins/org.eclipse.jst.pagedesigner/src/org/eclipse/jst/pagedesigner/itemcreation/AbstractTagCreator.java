@@ -93,7 +93,8 @@ public abstract class AbstractTagCreator implements ITagCreator
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
     	
-    	
+    	String detailBizObjName = null;
+    	String detailTableId = null;
     	if(htmlNode!=null){
     		
     		/*
@@ -102,28 +103,32 @@ public abstract class AbstractTagCreator implements ITagCreator
     		 *			目前只有明细表2013.05.07
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
-//        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+        		String nodeId = AbstractTagCreatorProvider.
+            			getAutoAttrValue(htmlNode, componentType);
+            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
+            			nodeId);
+        		
         		//static
         		DetailTable dialog = new DetailTable(null);
         		if (dialog.open() == Dialog.OK) {
         			int colCount = dialog.getColCount();
         			int rowCount = dialog.getRowCount();
-        			String bizObjName = dialog.getBizObjName();
+        			detailBizObjName = dialog.getBizObjName();
         			
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
         					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
         			if(dialog.isDeatailTable==true){
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-        						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
+        						,AbstractTagCreatorProvider.tagAttrValue_TRUE); 
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_BIZOBJ,
-            					bizObjName);
+        						detailBizObjName);
         			}else{
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
         						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
         			}
         			
         			// 引用传递修改对象
-        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,bizObjName,
+        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
     			}else{
     				return null;
@@ -189,7 +194,15 @@ public abstract class AbstractTagCreator implements ITagCreator
                             				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
                             						).getNodeValue().equals(
                             						AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                            			
                             			isDetailTag = true;
+                            			detailBizObjName = tableNode.getAttributes().
+                                				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
+                                						).getNodeValue();
+                            			detailTableId = tableNode.getAttributes().
+                                				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
+                                						).getNodeValue();
+                            			
                             			bizObjTypes = ConstantProperty.bizObjTypes[1]+"-" //$NON-NLS-1$
                             					+tableNode.getAttributes().getNamedItem(
                             							AbstractTagCreatorProvider.tagAttr_ID).getNodeValue();
@@ -199,8 +212,18 @@ public abstract class AbstractTagCreator implements ITagCreator
                         	}
                     	}else{
                     		isDetailTag = true;
+                    		detailBizObjName = tableNode.getAttributes().
+                    				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
+                    						).getNodeValue();
+                    		detailTableId = tableNode.getAttributes().
+                    				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
+                    						).getNodeValue();
                     	}
             		}
+            	}
+            	
+            	if(isDetailTag){
+            		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$
             	}
         		
         		// 写注释
