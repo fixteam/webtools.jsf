@@ -163,7 +163,8 @@ public abstract class AbstractTagCreator implements ITagCreator
         		
         		// 设componentType属性
         		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        		
+        		// 设type属性
+        		ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
         		
         		
         		// 是否明细表组件
