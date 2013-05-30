@@ -370,8 +370,10 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 				FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
 				fixPropertySource.getPropertyDescriptors();
 			}
+			
+			String bizObjName = ModelCommet.getCommentHeaderBizObjName(commentNode);
 			String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);
-			WPEBizObjFieldsView.setSelection(selectField);
+			WPEBizObjFieldsView.setSelection(bizObjName,selectField);
 		}
 		
 		internalToObjectMode();
