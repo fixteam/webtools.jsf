@@ -142,13 +142,11 @@ public abstract class AbstractTagCreator implements ITagCreator
         	 *		设属性写注释
         	 *		对象包括:
         	 *		1.fix(不包括基础组件)
-        	 *		2.html的input.text
+        	 *		2.html的input.text|TEXTAREA
         	 */
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
-        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){ 
-        		// globleXmlMap
-//        		XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
-        		
+        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
+        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){ 
         		
         		// 设id属性(propIdValue)：自动生成组件编号
         		String nodeId = AbstractTagCreatorProvider.
