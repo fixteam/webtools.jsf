@@ -51,7 +51,7 @@ public abstract class AbstractTagCreator implements ITagCreator
     public final Element createTag(final CreationData creationData) 
     {
 
-    	FixLoger.info("wpeFormDesignMessage----进入方法"); //$NON-NLS-1$
+    	FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
         final ITagCreationAdvisor  advisor = selectCreationAdvisor(creationData);
         FixLoger.info("wpeFormDesignMessage----56"); //$NON-NLS-1$
         // adjust the creation position to accommodate required containers
@@ -78,10 +78,10 @@ public abstract class AbstractTagCreator implements ITagCreator
         
         
         
-        FixLoger.info("wpeFormDesignMessage----开始...."); //$NON-NLS-1$
+        FixLoger.info("wpeFormDesignMessage----...."); //$NON-NLS-1$
         /*
     	 *	@author Fifteenth
-    	 *		provider：来判断是否是自定义组件
+    	 *		provider：
     	 *		
     	 */
         IDOMDocument domDocument = creationData.getModel().getDocument();
@@ -93,8 +93,8 @@ public abstract class AbstractTagCreator implements ITagCreator
     	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
     	
     	
-    	FixLoger.info("wpeFormDesignMessage----开始取htmlNode"); //$NON-NLS-1$
-    	// 得到htmlNode
+    	FixLoger.info("wpeFormDesignMessage----htmlNode"); //$NON-NLS-1$
+    	// htmlNode
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
@@ -102,14 +102,13 @@ public abstract class AbstractTagCreator implements ITagCreator
     	String detailBizObjName = null;
     	String detailTableId = null;
     	if(htmlNode!=null){
-    		FixLoger.info("wpeFormDesignMessage----取htmlNode成功"); //$NON-NLS-1$
+    		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
     		/*
     		 *	@author Fifteenth
-    		 *		处理fix基础组件
-    		 *			目前只有明细表2013.05.07
+    		 *		2013.05.07
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
-        		FixLoger.info("wpeFormDesignMessage----匹配基础组件成功"); //$NON-NLS-1$
+        		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
@@ -134,7 +133,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
         			}
         			FixLoger.info("wpeFormDesignMessage----136"); //$NON-NLS-1$
-        			// 引用传递修改对象
+        			// 
         			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
     			}else{
@@ -146,9 +145,9 @@ public abstract class AbstractTagCreator implements ITagCreator
         	
         	/*
         	 *	@author Fifteenth
-        	 *		设属性写注释
-        	 *		对象包括:
-        	 *		1.fix(不包括基础组件)
+        	 *		
+        	 *		:
+        	 *		1.fix
         	 *		2.html的input.text|TEXTAREA
         	 */
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
@@ -156,23 +155,23 @@ public abstract class AbstractTagCreator implements ITagCreator
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){ 
-        		FixLoger.info("wpeFormDesignMessage----Start....组件:"+componentType); //$NON-NLS-1$
+        		FixLoger.info("wpeFormDesignMessage----Start....:"+componentType); //$NON-NLS-1$
         		
-        		// 设id属性(propIdValue)：自动生成组件编号
+        		// id(propIdValue)：
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeId);
         		
-        		// 得到componentType
+        		// componentType
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
         		}
         		
         	
-        		//初始化组件
+        		//
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-        			// 设type属性
+        			// type
             		ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
         		}
 //        		else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){
@@ -182,16 +181,16 @@ public abstract class AbstractTagCreator implements ITagCreator
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){
-        			IDOMNode node = (IDOMNode) domDocument.createTextNode("字段名"); //$NON-NLS-1$
+        			IDOMNode node = (IDOMNode) domDocument.createTextNode("field"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else{
-        			// 设componentType属性
+        			// componentType
             		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         		}
         		
-        		FixLoger.info("wpeFormDesignMessage----组件初始化成功"); //$NON-NLS-1$
+        		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
         		
-        		// 是否明细表组件
+        		// 
             	Node tableNode = AbstractTagCreatorProvider.
             			getPointParentNode((IDOMNode)position.getContainerNode(),
             					AbstractTagCreatorProvider.nodeName_TABLE);
@@ -201,7 +200,7 @@ public abstract class AbstractTagCreator implements ITagCreator
             			+"-"+ConstantProperty.typeMainValue; //$NON-NLS-1$
             	
             	if(tableNode!=null){
-            		// tableNode为非明细表
+            		// tableNode
             		NamedNodeMap nodeAttributes = tableNode.getAttributes();
             		Node attrNode = nodeAttributes.getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL);
             		if(attrNode != null){
@@ -214,7 +213,7 @@ public abstract class AbstractTagCreator implements ITagCreator
                     			
                     			if(tableNode.getNodeName().equals(
                     					AbstractTagCreatorProvider.nodeName_TABLE)){
-                    				// 明细表
+                    				// 
                             		if(tableNode.getAttributes().
                             				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
                             						).getNodeValue().equals(
@@ -246,34 +245,34 @@ public abstract class AbstractTagCreator implements ITagCreator
                     	}
             		}
             	}
-            	FixLoger.info("wpeFormDesignMessage----判断是否明细表成功"); //$NON-NLS-1$
+            	FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
             	
             	if(isDetailTag){
             		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$
             	}
         		
-        		// 写注释
+        		// 
         		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
         				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
         		if(coment!=null
         				&&!coment.getTextContent().equals("")){ //$NON-NLS-1$
         			ele.appendChild(coment);
         		}
-        		FixLoger.info("wpeFormDesignMessage----写注释成功"); //$NON-NLS-1$
+        		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
         	}
         	
-        	// 得到headNode
+        	// headNode
 			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, 
 					AbstractTagCreatorProvider.nodeName_HEAD);
 			
-			// 写引用
+			// 
 			if(headNode!=null){
 				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
 						componentType, AbstractTagCreatorProvider.jsRef);
 				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
 						componentType, AbstractTagCreatorProvider.cssRef);
 			}
-			FixLoger.info("wpeFormDesignMessage----写引用成功"); //$NON-NLS-1$
+			FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
     	}
 
         addTagToContainer(position, ele);
@@ -345,9 +344,9 @@ public abstract class AbstractTagCreator implements ITagCreator
         if (position.getNextSiblingNode() == null) {
         	/*
         	 * founderfix
-        	 * 代码注释
         	 * 
-        	 * position.getContainerNode()：父节点
+        	 * 
+        	 * position.getContainerNode()：
         	 */
             position.getContainerNode().appendChild(tagElement);
         } else {
