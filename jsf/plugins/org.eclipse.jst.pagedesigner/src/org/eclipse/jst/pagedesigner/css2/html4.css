@@ -96,13 +96,13 @@ input[type=checkbox],
 input[type=radio]  {border: none }
 input[type=hidden]  {border: none }
 img				{border: 0px none}
-label			{height:0px;border: 1px solid #aaa; text-align: center;}
+label			{text-align: center;margin: 0px; padding:1px !important;}
 listing         {font-family:monospace;font-size: medium;white-space: pre; margin: 1em 0;}
 tbody,thead,tfoot     {vertical-align: middle;}
 blink 			{text-decoration: blink;}
 
 hr 		{margin: 0.5em auto 0.5em auto;}
-caption  {border: 1px solid #aaa; text-align: center;font-weight: bold;margin: 0px; padding:0px;}
+caption  {text-align: center;font-weight: bold;margin: 0px; padding:1px !important;}
 td, th,
 table    {border: 4px none;}
 button   {padding: 3px 5px;text-align: center;vertical-align: middle;}
