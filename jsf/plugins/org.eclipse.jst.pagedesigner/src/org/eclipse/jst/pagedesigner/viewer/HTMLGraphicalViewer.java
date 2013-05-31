@@ -365,15 +365,18 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 			ElementStyleImpl impl = (ElementStyleImpl)((ElementEditPart)editpart).getDOMNode();
 			Node commentNode = ModelCommet.getNode(impl, ""); //$NON-NLS-1$
 			
-			if(!FixPropertySource.isInit){
+			if(!FixPropertySource.isInit||
+					impl.getLocalName().equals("caption")){ //$NON-NLS-1$
 				FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
 				FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
 				fixPropertySource.getPropertyDescriptors();
 			}
 			
 			String bizObjName = ModelCommet.getCommentHeaderBizObjName(commentNode);
-			String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);
-			WPEBizObjFieldsView.setSelection(bizObjName,selectField);
+			if(bizObjName!=null){
+				String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);
+				WPEBizObjFieldsView.setSelection(bizObjName,selectField);
+			}
 		}
 		
 		internalToObjectMode();

@@ -27,6 +27,7 @@ import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ConstantProperty;
+import com.founder.fix.ocx.platformdesigner.interfaces.FixLoger;
 
 
 /**
@@ -150,6 +151,9 @@ public abstract class AbstractTagCreator implements ITagCreator
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){ 
         		
+        		
+        		FixLoger.info("wpeFormDesignMessage----Start....组件:"+componentType); //$NON-NLS-1$
+        		
         		// 设id属性(propIdValue)：自动生成组件编号
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
@@ -180,6 +184,8 @@ public abstract class AbstractTagCreator implements ITagCreator
         			// 设componentType属性
             		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         		}
+        		
+        		FixLoger.info("wpeFormDesignMessage----组件初始化成功"); //$NON-NLS-1$
         		
         		// 是否明细表组件
             	Node tableNode = AbstractTagCreatorProvider.
@@ -236,6 +242,7 @@ public abstract class AbstractTagCreator implements ITagCreator
                     	}
             		}
             	}
+            	FixLoger.info("wpeFormDesignMessage----判断是否明细表成功"); //$NON-NLS-1$
             	
             	if(isDetailTag){
             		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$
@@ -244,9 +251,11 @@ public abstract class AbstractTagCreator implements ITagCreator
         		// 写注释
         		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
         				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
-        		if(coment!=null){
+        		if(coment!=null
+        				&&!coment.getTextContent().equals("")){ //$NON-NLS-1$
         			ele.appendChild(coment);
         		}
+        		FixLoger.info("wpeFormDesignMessage----写注释成功"); //$NON-NLS-1$
         	}
         	
         	// 得到headNode
@@ -260,6 +269,7 @@ public abstract class AbstractTagCreator implements ITagCreator
 				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
 						componentType, AbstractTagCreatorProvider.cssRef);
 			}
+			FixLoger.info("wpeFormDesignMessage----写引用成功"); //$NON-NLS-1$
     	}
 
         addTagToContainer(position, ele);

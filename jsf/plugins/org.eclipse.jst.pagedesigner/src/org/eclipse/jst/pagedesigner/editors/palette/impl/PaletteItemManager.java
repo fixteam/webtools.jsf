@@ -391,7 +391,7 @@ public class PaletteItemManager implements IPaletteItemManager,
 //		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.FOUNDERFIX_DOC_TYPE);
 //		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.FOUNDERFIX_DOC_TYPE);
 		
-		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory("founderfix1","基础组件"); //$NON-NLS-1$ //$NON-NLS-2$
+		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory("founderfix1","\u57FA\u7840\u7EC4\u4EF6"); //$NON-NLS-1$ //$NON-NLS-2$
 		_paletteHelper.loadFounderfixStaticTags(founderfixStaticDrawer);
 		
 		String drawerType[] = TempStatic.categories;
