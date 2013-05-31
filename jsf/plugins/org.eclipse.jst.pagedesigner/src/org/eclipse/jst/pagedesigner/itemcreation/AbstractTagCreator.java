@@ -51,20 +51,21 @@ public abstract class AbstractTagCreator implements ITagCreator
     public final Element createTag(final CreationData creationData) 
     {
 
+    	FixLoger.info("wpeFormDesignMessage----进入方法"); //$NON-NLS-1$
         final ITagCreationAdvisor  advisor = selectCreationAdvisor(creationData);
-        
+        FixLoger.info("wpeFormDesignMessage----56"); //$NON-NLS-1$
         // adjust the creation position to accommodate required containers
         final IDOMPosition position = 
             advisor.checkAndApplyNecessaryContainers(creationData.getModel(), creationData.getDomPosition());
         
         if (position == null) return null;//throw exception?
-
+        FixLoger.info("wpeFormDesignMessage----62"); //$NON-NLS-1$
         creationData.setAdjustedPosition(position);
         
         // create the element
         final Element ele =  createElement(creationData);
         if (ele == null) return null;//throw exception?
-
+        FixLoger.info("wpeFormDesignMessage----68"); //$NON-NLS-1$
         // apply tag customization
         advisor.applyCustomization(creationData.getModel(), ele);
 
@@ -85,9 +86,10 @@ public abstract class AbstractTagCreator implements ITagCreator
     	 */
         IDOMDocument domDocument = creationData.getModel().getDocument();
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
+    	FixLoger.info("wpeFormDesignMessage----89"); //$NON-NLS-1$
     	String componentType = provider.getId();
     	
-    	
+    	FixLoger.info("wpeFormDesignMessage----92"); //$NON-NLS-1$
     	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
     	
     	
@@ -96,7 +98,7 @@ public abstract class AbstractTagCreator implements ITagCreator
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
-    	
+    	FixLoger.info("wpeFormDesignMessage----101"); //$NON-NLS-1$
     	String detailBizObjName = null;
     	String detailTableId = null;
     	if(htmlNode!=null){
@@ -112,7 +114,7 @@ public abstract class AbstractTagCreator implements ITagCreator
             			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeId);
-        		
+            	FixLoger.info("wpeFormDesignMessage----117"); //$NON-NLS-1$
         		//static
         		DetailTable dialog = new DetailTable(null);
         		if (dialog.open() == Dialog.OK) {
@@ -131,7 +133,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
         						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
         			}
-        			
+        			FixLoger.info("wpeFormDesignMessage----136"); //$NON-NLS-1$
         			// 引用传递修改对象
         			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
