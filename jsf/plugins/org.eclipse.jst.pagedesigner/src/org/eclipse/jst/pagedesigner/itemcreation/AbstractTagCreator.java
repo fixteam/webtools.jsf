@@ -77,6 +77,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         
         
         
+        FixLoger.info("wpeFormDesignMessage----开始...."); //$NON-NLS-1$
         /*
     	 *	@author Fifteenth
     	 *		provider：来判断是否是自定义组件
@@ -86,9 +87,11 @@ public abstract class AbstractTagCreator implements ITagCreator
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
     	String componentType = provider.getId();
     	
+    	
     	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
     	
     	
+    	FixLoger.info("wpeFormDesignMessage----开始取htmlNode"); //$NON-NLS-1$
     	// 得到htmlNode
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
@@ -97,13 +100,14 @@ public abstract class AbstractTagCreator implements ITagCreator
     	String detailBizObjName = null;
     	String detailTableId = null;
     	if(htmlNode!=null){
-    		
+    		FixLoger.info("wpeFormDesignMessage----取htmlNode成功"); //$NON-NLS-1$
     		/*
     		 *	@author Fifteenth
     		 *		处理fix基础组件
     		 *			目前只有明细表2013.05.07
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
+        		FixLoger.info("wpeFormDesignMessage----匹配基础组件成功"); //$NON-NLS-1$
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
@@ -150,8 +154,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){ 
-        		
-        		
         		FixLoger.info("wpeFormDesignMessage----Start....组件:"+componentType); //$NON-NLS-1$
         		
         		// 设id属性(propIdValue)：自动生成组件编号

@@ -279,7 +279,7 @@ public class PaletteHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		internalCreateTagEntry(category,"table1","table","\u8868\u683C","可用于自动生成明细表",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		internalCreateTagEntry(category,"table1","table","\u8868\u683C","\u53EF\u7528\u4E8E\u81EA\u52A8\u751F\u6210\u660E\u7EC6\u8868",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		category.setInitialState(1);
 	}
 	
