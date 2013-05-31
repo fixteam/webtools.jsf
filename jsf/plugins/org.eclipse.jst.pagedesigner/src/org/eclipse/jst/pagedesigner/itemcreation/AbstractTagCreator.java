@@ -146,7 +146,9 @@ public abstract class AbstractTagCreator implements ITagCreator
         	 */
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
-        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){ 
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){ 
         		
         		// 设id属性(propIdValue)：自动生成组件编号
         		String nodeId = AbstractTagCreatorProvider.
@@ -159,11 +161,25 @@ public abstract class AbstractTagCreator implements ITagCreator
         			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
         		}
         		
-        		// 设componentType属性
-        		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        		// 设type属性
-        		ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
-        		
+        	
+        		//初始化组件
+        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
+        			// 设type属性
+            		ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
+        		}
+//        		else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){
+//        			
+//        		}
+        		else if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
+        			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
+        			ele.appendChild(node);
+        		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){
+        			IDOMNode node = (IDOMNode) domDocument.createTextNode("字段名"); //$NON-NLS-1$
+        			ele.appendChild(node);
+        		}else{
+        			// 设componentType属性
+            		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
+        		}
         		
         		// 是否明细表组件
             	Node tableNode = AbstractTagCreatorProvider.
@@ -246,8 +262,6 @@ public abstract class AbstractTagCreator implements ITagCreator
 			}
     	}
 
-    	
-    	
         addTagToContainer(position, ele);
         return ele;
     }
