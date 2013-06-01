@@ -10,22 +10,22 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.itemcreation;
 
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.dom.IDOMPosition;
 import org.eclipse.jst.pagedesigner.editors.palette.ITagDropSourceData;
-//import org.eclipse.wst.xml.core.internal.document.AttrImpl;
+import org.eclipse.wst.xml.core.internal.document.AttrImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-//import org.w3c.dom.NodeList;
+import org.w3c.dom.NodeList;
 
 import com.founder.fix.base.wpe.FormPageUtil;
 import com.founder.fix.base.wpe.TempStatic;
@@ -105,6 +105,8 @@ public abstract class AbstractTagCreator implements ITagCreator
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
+    	nodeAutoId = getAutoAttributeValue(htmlNode, componentType);
+    	
     	FixLoger.info("wpeFormDesignMessage----101"); //$NON-NLS-1$
     	String detailBizObjName = null;
     	String detailTableId = null;
@@ -116,7 +118,7 @@ public abstract class AbstractTagCreator implements ITagCreator
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
         		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
-        		nodeAutoId = getAutoAttributeValue(htmlNode, componentType);
+//        		nodeAutoId = getAutoAttributeValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeAutoId);
             	FixLoger.info("wpeFormDesignMessage----117"); //$NON-NLS-1$
@@ -164,7 +166,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         		FixLoger.info("wpeFormDesignMessage----Start....:"+componentType); //$NON-NLS-1$
         		
         		// id(propIdValue)：
-        		nodeAutoId = getAutoAttributeValue(htmlNode, componentType);
+//        		nodeAutoId = getAutoAttributeValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeAutoId);
         		
@@ -365,61 +367,60 @@ public abstract class AbstractTagCreator implements ITagCreator
     
     
     public static String getAutoAttributeValue(Node node,String componentType){
-//		String idValue = "";  //$NON-NLS-1$
-//    	List<String> idList = new ArrayList();
-//    	String autoValue = componentType;
-//    	String tagName;
-//    	if(componentType.endsWith(AbstractTagCreatorProvider.tagAttr_INPUT)){
-//    		autoValue = AbstractTagCreatorProvider.nodeName_INPUT;
-//    		tagName = AbstractTagCreatorProvider.nodeName_INPUT;
-//    		componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT;
-//    	}else{
-//    		tagName = AbstractTagCreatorProvider.nodeName_SPAN;
-//    	}
-//		NodeList nodeList = node.getOwnerDocument().
-//				getElementsByTagName(tagName);
-//		for(int i=0;i<nodeList.getLength();i++){
-//			nodeList.item(i).getAttributes().getLength();
-//			// componentType：（：ztree、）
-//			NamedNodeMap nodeAttributes = nodeList.item(i).getAttributes();
-//			Node attrNode  = nodeAttributes.getNamedItem(AbstractTagCreatorProvider.tagAttr_ComponentType);
-//			if(attrNode!=null){
-//				String tag_componentType = nodeAttributes.getNamedItem(
-//						AbstractTagCreatorProvider.tagAttr_ComponentType).getNodeValue();
-//				// attr
-//				AttrImpl attrImpl = (AttrImpl)nodeList.item(i).getAttributes().
-//						getNamedItem(AbstractTagCreatorProvider.tagAttr_ID);
-//				
-//				if(attrImpl!=null
-//						&&componentType.equals(tag_componentType)){
-//					// 只放入同类型的组件
-//					idList.add(attrImpl.getValue().toString());
-//				}
-//			}
-//		}
-//		
-//		
-//		if(idList.size()==0){
-//			idValue = autoValue+"_0"; //$NON-NLS-1$
-//		}else{
-//			// idList排序
-//    		ComparatorUtil comparator = new ComparatorUtil();
-//    		Collections.sort(idList, comparator);
-//    		
-//        	for(int i=0;i<idList.size();i++){
-//        		String tempString = autoValue+"_"+i;//$NON-NLS-1$
-//        		if(!(idList.get(i).equals(tempString))){ 
-//        			if(!idList.contains(tempString)){
-//        				idValue = tempString;
-//        				break;
-//        			}
-//        		}
-//        	}
-//        	if(idValue.equals("")){ //$NON-NLS-1$
-//        		idValue = autoValue+"_"+idList.size(); //$NON-NLS-1$
-//        	}
-//		}
-//		return idValue;
-    	return "a123456"; //$NON-NLS-1$
+		String idValue = "";  //$NON-NLS-1$
+    	List<String> idList = new ArrayList();
+    	String autoValue = componentType;
+    	String tagName;
+    	if(componentType.endsWith(AbstractTagCreatorProvider.tagAttr_INPUT)){
+    		autoValue = AbstractTagCreatorProvider.nodeName_INPUT;
+    		tagName = AbstractTagCreatorProvider.nodeName_INPUT;
+    		componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT;
+    	}else{
+    		tagName = AbstractTagCreatorProvider.nodeName_SPAN;
+    	}
+		NodeList nodeList = node.getOwnerDocument().
+				getElementsByTagName(tagName);
+		for(int i=0;i<nodeList.getLength();i++){
+			nodeList.item(i).getAttributes().getLength();
+			// componentType：（：ztree、）
+			NamedNodeMap nodeAttributes = nodeList.item(i).getAttributes();
+			Node attrNode  = nodeAttributes.getNamedItem(AbstractTagCreatorProvider.tagAttr_ComponentType);
+			if(attrNode!=null){
+				String tag_componentType = nodeAttributes.getNamedItem(
+						AbstractTagCreatorProvider.tagAttr_ComponentType).getNodeValue();
+				// attr
+				AttrImpl attrImpl = (AttrImpl)nodeList.item(i).getAttributes().
+						getNamedItem(AbstractTagCreatorProvider.tagAttr_ID);
+				
+				if(attrImpl!=null
+						&&componentType.equals(tag_componentType)){
+					// 只放入同类型的组件
+					idList.add(attrImpl.getValue().toString());
+				}
+			}
+		}
+		
+		
+		if(idList.size()==0){
+			idValue = autoValue+"_0"; //$NON-NLS-1$
+		}else{
+			// idList排序
+    		ComparatorUtil comparator = new ComparatorUtil();
+    		Collections.sort(idList, comparator);
+    		
+        	for(int i=0;i<idList.size();i++){
+        		String tempString = autoValue+"_"+i;//$NON-NLS-1$
+        		if(!(idList.get(i).equals(tempString))){ 
+        			if(!idList.contains(tempString)){
+        				idValue = tempString;
+        				break;
+        			}
+        		}
+        	}
+        	if(idValue.equals("")){ //$NON-NLS-1$
+        		idValue = autoValue+"_"+idList.size(); //$NON-NLS-1$
+        	}
+		}
+		return idValue;
 	}
 }
