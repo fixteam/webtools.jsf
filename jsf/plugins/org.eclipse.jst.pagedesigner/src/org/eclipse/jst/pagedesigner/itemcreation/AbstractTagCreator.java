@@ -109,10 +109,11 @@ public abstract class AbstractTagCreator implements ITagCreator
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
         		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
-        		String nodeId = AbstractTagCreatorProvider.
-            			getAutoAttrValue(htmlNode, componentType);
+//        		String nodeId = AbstractTagCreatorProvider.
+//            			getAutoAttrValue(htmlNode, componentType);
+        		String nodeAutoId = "node123456"; //$NON-NLS-1$
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-            			nodeId);
+            			nodeAutoId);
             	FixLoger.info("wpeFormDesignMessage----117"); //$NON-NLS-1$
         		//static
         		DetailTable dialog = new DetailTable(null);
@@ -134,7 +135,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         			}
         			FixLoger.info("wpeFormDesignMessage----136"); //$NON-NLS-1$
         			// 
-        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
+        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeAutoId,detailBizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
     			}else{
     				return null;
@@ -158,11 +159,11 @@ public abstract class AbstractTagCreator implements ITagCreator
         		FixLoger.info("wpeFormDesignMessage----Start....:"+componentType); //$NON-NLS-1$
         		
         		// id(propIdValue)：
-        		String nodeId = "node1111"; //$NON-NLS-1$
 //        		String nodeId = AbstractTagCreatorProvider.
 //            			getAutoAttrValue(htmlNode, componentType);
-//            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-//            			nodeId);
+        		String nodeAutoId = "node5555"; //$NON-NLS-1$
+            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
+            			nodeAutoId);
         		
         		// componentType
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
@@ -254,7 +255,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         		
         		// 
         		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
-        				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
+        				componentType, domDocument,nodeAutoId,isDetailTag,bizObjTypes);
         		if(coment!=null
         				&&!coment.getTextContent().equals("")){ //$NON-NLS-1$
         			ele.appendChild(coment);
