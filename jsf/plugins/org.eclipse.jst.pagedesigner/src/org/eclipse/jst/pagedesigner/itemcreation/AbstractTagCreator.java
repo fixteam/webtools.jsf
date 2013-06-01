@@ -34,6 +34,7 @@ import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ConstantProperty;
 import com.founder.fix.ocx.platformdesigner.interfaces.FixLoger;
+import com.founder.fix.ocx.util.ComparatorUtil;
 
 
 /**
