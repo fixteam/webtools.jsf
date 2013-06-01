@@ -276,6 +276,7 @@ public abstract class AbstractTagCreator implements ITagCreator
 			FixLoger.info("wpeFormDesignMessage----写引用成功"); //$NON-NLS-1$
     	}
 
+    	
         addTagToContainer(position, ele);
         return ele;
     }
