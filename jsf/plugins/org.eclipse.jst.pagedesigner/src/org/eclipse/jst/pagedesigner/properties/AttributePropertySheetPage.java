@@ -58,7 +58,7 @@ public class AttributePropertySheetPage extends PropertySheetPage {
 			
 			//把排序语法去掉，放两个空字符，表示不进行排序 
 			//只认属性的先进先出
-			return 0;
+			return getCollator().compare("","");//$NON-NLS-1$//$NON-NLS-2$
 		}
 	};
 
