@@ -23,9 +23,9 @@ public class ComparatorUtil implements Comparator{
 //		ComparatorUtil comparator = new ComparatorUtil();
 //		Collections.sort(list1, comparator);
 		
-		System.out.println("1".compareTo("2"));  //$NON-NLS-1$//$NON-NLS-2$
+		System.out.println("1".compareTo("2")); //$NON-NLS-1$ //$NON-NLS-2$
 		System.out.println("2".compareTo("2")); //$NON-NLS-1$ //$NON-NLS-2$
-		System.out.println("2".compareTo("1"));  //$NON-NLS-1$//$NON-NLS-2$
+		System.out.println("2".compareTo("1")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 
