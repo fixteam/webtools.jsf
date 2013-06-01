@@ -158,10 +158,11 @@ public abstract class AbstractTagCreator implements ITagCreator
         		FixLoger.info("wpeFormDesignMessage----Start....:"+componentType); //$NON-NLS-1$
         		
         		// id(propIdValue)：
-        		String nodeId = AbstractTagCreatorProvider.
-            			getAutoAttrValue(htmlNode, componentType);
-            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-            			nodeId);
+        		String nodeId = "node1111"; //$NON-NLS-1$
+//        		String nodeId = AbstractTagCreatorProvider.
+//            			getAutoAttrValue(htmlNode, componentType);
+//            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
+//            			nodeId);
         		
         		// componentType
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
