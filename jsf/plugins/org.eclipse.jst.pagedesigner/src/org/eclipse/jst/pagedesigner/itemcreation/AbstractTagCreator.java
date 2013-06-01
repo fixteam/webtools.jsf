@@ -109,9 +109,8 @@ public abstract class AbstractTagCreator implements ITagCreator
     		 */
         	if(provider.getNamespace().equals("founderfix1")){ //$NON-NLS-1$
         		FixLoger.info("wpeFormDesignMessage----"); //$NON-NLS-1$
-//        		String nodeId = AbstractTagCreatorProvider.
-//            			getAutoAttrValue(htmlNode, componentType);
-        		String nodeAutoId = "node123456"; //$NON-NLS-1$
+        		String nodeAutoId = AbstractTagCreatorProvider.
+            			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeAutoId);
             	FixLoger.info("wpeFormDesignMessage----117"); //$NON-NLS-1$
@@ -159,9 +158,8 @@ public abstract class AbstractTagCreator implements ITagCreator
         		FixLoger.info("wpeFormDesignMessage----Start....:"+componentType); //$NON-NLS-1$
         		
         		// id(propIdValue)：
-//        		String nodeId = AbstractTagCreatorProvider.
-//            			getAutoAttrValue(htmlNode, componentType);
-        		String nodeAutoId = "node5555"; //$NON-NLS-1$
+        		String nodeAutoId = AbstractTagCreatorProvider.
+            			getAutoAttrValue(htmlNode, componentType);
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeAutoId);
         		
