@@ -139,7 +139,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         		}else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.nodeName_LABEL; 
         		}
-        	
 //        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
 //            		
 //        		}
