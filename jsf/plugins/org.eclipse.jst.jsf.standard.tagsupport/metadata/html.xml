@@ -76,7 +76,7 @@
 			<item id="DIV"/>
 			<item id="EM"/>
 			<item id="LABEL"/>
-			<item id="CAPTION"/>
+			<item id="KBD"/>
 			<item id="LINK">							
 				<tag-create>
 					<attribute id="href" value=""/>
@@ -414,7 +414,7 @@
 			<value xsi:type="mdt:StringValue">large/HTML_LABEL.gif</value>
 		</trait>		
 	</entity>
-	<entity id="CAPTION">
+	<entity id="KBD">
 		<include-entity-group id="common-core-attributes"/>
 		<include-entity-group id="common-language-attributes"/>
 		<include-entity-group id="common-event-attributes"/>
@@ -436,16 +436,16 @@
 			</trait>
 		</entity>
 		<trait id="display-label">
-			<value xsi:type="mdt:StringValue">%CAPTION.display-label</value>
+			<value xsi:type="mdt:StringValue">%KBD.display-label</value>
 		</trait>
 		<trait id="description">
-			<value xsi:type="mdt:StringValue">%CAPTION.description</value>
+			<value xsi:type="mdt:StringValue">%KBD.description</value>
 		</trait>		
 		<trait id="small-icon">
-			<value xsi:type="mdt:StringValue">small/HTML_CAPTION.gif</value>
+			<value xsi:type="mdt:StringValue">small/HTML_KBD.gif</value>
 		</trait>
 		<trait id="large-icon">
-			<value xsi:type="mdt:StringValue">large/HTML_CAPTION.gif</value>
+			<value xsi:type="mdt:StringValue">large/HTML_KBD.gif</value>
 		</trait>		
 	</entity>
 	<entityGroup id="common-html-attributes">

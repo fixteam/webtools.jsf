@@ -365,10 +365,10 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 			ElementStyleImpl impl = (ElementStyleImpl)((ElementEditPart)editpart).getDOMNode();
 			Node commentNode = ModelCommet.getNode(impl, ""); //$NON-NLS-1$
 			
-			if(!FixPropertySource.isInit||
-					impl.getLocalName().equals("caption")){ //$NON-NLS-1$
-				FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
-				FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
+			FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
+			FixPropertySourceProvider.currentProvider = provider;
+			FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
+			if(!FixPropertySource.isInit){
 				fixPropertySource.getPropertyDescriptors();
 			}
 			
