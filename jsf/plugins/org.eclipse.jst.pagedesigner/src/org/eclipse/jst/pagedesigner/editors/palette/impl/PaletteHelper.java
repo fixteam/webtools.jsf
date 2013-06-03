@@ -218,12 +218,7 @@ public class PaletteHelper {
 			final Model model, final ITaglibDomainMetaDataQuery query) {
 		
 		if(category.getId().equals("FOUNDERFIX")){ //$NON-NLS-1$){
-			/*
-			 *	@author Fifteenth
-			 *		自定义组件
-			 */
 			
-			//得到所有组件信息
 //			AbstractTagCreatorProvider.getComponentJson();
 //			
 //			for(int i=0;i<AbstractTagCreatorProvider.componentList.size();i++){

@@ -296,12 +296,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         }
 
         if (position.getNextSiblingNode() == null) {
-        	/*
-        	 * founderfix
-        	 * 代码注释
-        	 * 
-        	 * position.getContainerNode()：父节点
-        	 */
             position.getContainerNode().appendChild(tagElement);
         } else {
             position.getContainerNode().insertBefore(tagElement,
