@@ -154,7 +154,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
         		FixLoger.info("wpeFormDesignMessage----Start....组件:"+componentType); //$NON-NLS-1$
         		
@@ -184,7 +184,7 @@ public abstract class AbstractTagCreator implements ITagCreator
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
         			ele.appendChild(node);
-        		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){
+        		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)){
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("字段名"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else{
