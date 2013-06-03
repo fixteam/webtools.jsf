@@ -154,8 +154,8 @@ public abstract class AbstractTagCreator implements ITagCreator
         	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){ 
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)
+        			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
         		FixLoger.info("wpeFormDesignMessage----Start....组件:"+componentType); //$NON-NLS-1$
         		
         		// 设id属性(propIdValue)：自动生成组件编号
@@ -167,6 +167,8 @@ public abstract class AbstractTagCreator implements ITagCreator
         		// 得到componentType
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
+        		}else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
+        			componentType = AbstractTagCreatorProvider.nodeName_LABEL; 
         		}
         		
         	
@@ -179,6 +181,7 @@ public abstract class AbstractTagCreator implements ITagCreator
 //        			
 //        		}
         		else if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
+        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_CAPTION)){
@@ -192,44 +195,40 @@ public abstract class AbstractTagCreator implements ITagCreator
         		FixLoger.info("wpeFormDesignMessage----组件初始化成功"); //$NON-NLS-1$
         		
         		// 是否明细表组件
-            	Node tableNode = AbstractTagCreatorProvider.
+            	Node templateTrNode = AbstractTagCreatorProvider.
             			getPointParentNode((IDOMNode)position.getContainerNode(),
-            					AbstractTagCreatorProvider.nodeName_TABLE);
+            					AbstractTagCreatorProvider.nodeName_TR);
             	
             	Boolean isDetailTag = false;
             	String bizObjTypes = ConstantProperty.bizObjTypes[0]
             			+"-"+ConstantProperty.typeMainValue; //$NON-NLS-1$
             	
-            	if(tableNode!=null){
+            	if(templateTrNode!=null){
             		// tableNode为非明细表
-            		NamedNodeMap nodeAttributes = tableNode.getAttributes();
-            		Node attrNode = nodeAttributes.getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL);
-            		if(attrNode != null){
-            			if(!tableNode.getAttributes().
-                				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL).
-                				getNodeValue().equals(AbstractTagCreatorProvider.tagAttrValue_TRUE)){
-                    		while(!tableNode.getParentNode().getNodeName().equals(
+            		NamedNodeMap nodeAttributes = templateTrNode.getAttributes();
+            		Node attrNode = nodeAttributes.getNamedItem("repeat"); //$NON-NLS-1$
+            		if(attrNode != null){ 
+            			if(!attrNode.getNodeValue().equals("template")){ //$NON-NLS-1$
+                    		while(!templateTrNode.getParentNode().getNodeName().equals(
                         			AbstractTagCreatorProvider.nodeName_BODY)){
-                    			tableNode = tableNode.getParentNode();
+                    			templateTrNode = templateTrNode.getParentNode();
                     			
-                    			if(tableNode.getNodeName().equals(
-                    					AbstractTagCreatorProvider.nodeName_TABLE)){
+                    			if(templateTrNode.getNodeName().equals(
+                    					AbstractTagCreatorProvider.nodeName_TR)){
                     				// 明细表
-                            		if(tableNode.getAttributes().
-                            				getNamedItem(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-                            						).getNodeValue().equals(
-                            						AbstractTagCreatorProvider.tagAttrValue_TRUE)){
+                            		if(templateTrNode.getAttributes().getNamedItem("repeat").  //$NON-NLS-1$
+                        					getNodeValue().equals("template")){//$NON-NLS-1$
                             			
                             			isDetailTag = true;
-                            			detailBizObjName = tableNode.getAttributes().
+                            			detailBizObjName = templateTrNode.getAttributes().
                                 				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
                                 						).getNodeValue();
-                            			detailTableId = tableNode.getAttributes().
+                            			detailTableId = templateTrNode.getAttributes().
                                 				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
                                 						).getNodeValue();
                             			
                             			bizObjTypes = ConstantProperty.bizObjTypes[1]+"-" //$NON-NLS-1$
-                            					+tableNode.getAttributes().getNamedItem(
+                            					+templateTrNode.getAttributes().getNamedItem(
                             							AbstractTagCreatorProvider.tagAttr_ID).getNodeValue();
                             			break;
                             		}
@@ -237,12 +236,11 @@ public abstract class AbstractTagCreator implements ITagCreator
                         	}
                     	}else{
                     		isDetailTag = true;
-                    		detailBizObjName = tableNode.getAttributes().
+                    		detailBizObjName = templateTrNode.getAttributes().
                     				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
                     						).getNodeValue();
-                    		detailTableId = tableNode.getAttributes().
-                    				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
-                    						).getNodeValue();
+                    		detailTableId = templateTrNode.getAttributes().
+                    				getNamedItem("detailTableId").getNodeValue(); //$NON-NLS-1$
                     	}
             		}
             	}
