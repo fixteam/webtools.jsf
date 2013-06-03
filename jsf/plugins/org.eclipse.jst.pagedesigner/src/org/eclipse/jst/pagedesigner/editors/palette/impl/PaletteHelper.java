@@ -254,7 +254,6 @@ public class PaletteHelper {
 					for (final Iterator it = tags.getInfos().iterator(); it.hasNext();) {
 						final PaletteInfo tag = (PaletteInfo) it.next();
 						//input text textarea kbd label      TEXTAREA   LABEL
-						System.out.println(tag.getId());
 						if(tag.getId().equals("INPUT.TEXT") //$NON-NLS-1$
 								||tag.getId().equals("TEXTAREA") //$NON-NLS-1$
 								||tag.getId().equals("LABEL") //$NON-NLS-1$
@@ -297,13 +296,6 @@ public class PaletteHelper {
 	}
 	
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
-		
-		/*
-		 *	@author Fifteenth
-		 *		自定义组件
-		 */
-		
-		//得到所有组件信息
 		XmlPropBufferProvider.getComponentJson();
 		
 		String pagePage = FormPageUtil.currentFormPagePath;

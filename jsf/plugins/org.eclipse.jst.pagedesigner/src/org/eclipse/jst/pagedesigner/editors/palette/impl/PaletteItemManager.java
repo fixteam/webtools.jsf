@@ -109,7 +109,7 @@ public class PaletteItemManager implements IPaletteItemManager,
 	public static PaletteItemManager getInstance(final IPaletteContext paletteContext) {	
 		/*
 		 *	@author Fifteenth
-		 *		一些初始化信息:
+		 *		
 		 *		1.formPageFile
 		 *		2.formPagePath
 		 *		3.webProjectName
@@ -330,15 +330,8 @@ public class PaletteItemManager implements IPaletteItemManager,
 //		if (isJSP(_tagRegId))
 //			registerJSPCategory();
 		
-		/*
-		 * founderfix
-		 * 注册founderfix组件
-		 */
 		registerFounderfixCategory();
-		
-		
 		registerTagsFromTagRegistry();	
-		
 		registerHTMLCategory();
 	}
 
