@@ -327,7 +327,6 @@ public class PaletteItemManager implements IPaletteItemManager,
 	}
 	
 	private void initTagRegistry() {
-		registerHTMLCategory();
 //		if (isJSP(_tagRegId))
 //			registerJSPCategory();
 		
@@ -339,6 +338,8 @@ public class PaletteItemManager implements IPaletteItemManager,
 		
 		
 		registerTagsFromTagRegistry();	
+		
+		registerHTMLCategory();
 	}
 
 //	private boolean isJSP(final TagRegistryIdentifier tagRegistryId) {

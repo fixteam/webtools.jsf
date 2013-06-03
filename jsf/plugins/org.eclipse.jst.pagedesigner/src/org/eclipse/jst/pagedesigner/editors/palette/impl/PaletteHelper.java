@@ -64,6 +64,8 @@ import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
  * Helper class.
  */
 public class PaletteHelper {
+	
+	TaglibPaletteDrawer categoryBasic;
 
 	// pattern to strip all <x> and </x> HTML tags
 	final private static Pattern removeHTMLTags = Pattern
@@ -251,7 +253,16 @@ public class PaletteHelper {
 					final PaletteInfos tags = (PaletteInfos) trait.getValue();
 					for (final Iterator it = tags.getInfos().iterator(); it.hasNext();) {
 						final PaletteInfo tag = (PaletteInfo) it.next();
-						createTagEntry(category, tag, doc);
+						//input text textarea kbd label      TEXTAREA   LABEL
+						System.out.println(tag.getId());
+						if(tag.getId().equals("INPUT.TEXT") //$NON-NLS-1$
+								||tag.getId().equals("TEXTAREA") //$NON-NLS-1$
+								||tag.getId().equals("LABEL") //$NON-NLS-1$
+								||tag.getId().equals("KBD")){ //$NON-NLS-1$
+							createTagEntry(categoryBasic, tag, doc);
+						}else{
+							createTagEntry(category, tag, doc);
+						}
 					}
 				} else {
 					for (final Iterator it = model.getChildEntities().iterator(); it
@@ -281,6 +292,8 @@ public class PaletteHelper {
 		}
 		internalCreateTagEntry(category,"table1","table","\u8868\u683C","\u53EF\u7528\u4E8E\u81EA\u52A8\u751F\u6210\u660E\u7EC6\u8868",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		category.setInitialState(1);
+		
+		categoryBasic = category;
 	}
 	
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
