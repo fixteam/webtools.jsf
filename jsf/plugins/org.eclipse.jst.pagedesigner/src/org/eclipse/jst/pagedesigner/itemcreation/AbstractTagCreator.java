@@ -27,7 +27,6 @@ import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ConstantProperty;
-import com.founder.fix.ocx.platformdesigner.interfaces.FixLoger;
 
 
 /**
@@ -112,7 +111,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
         						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
         			}
-        			FixLoger.info("wpeFormDesignMessage----136"); //$NON-NLS-1$
         			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
         					domDocument,ele,htmlNode,dialog.aISelectionState);
     			}else{
@@ -139,13 +137,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         		}else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.nodeName_LABEL; 
         		}
-//        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-//            		
-//        		}
-////        		else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){
-////        			
-////        		}
-//        		else 
         		if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
