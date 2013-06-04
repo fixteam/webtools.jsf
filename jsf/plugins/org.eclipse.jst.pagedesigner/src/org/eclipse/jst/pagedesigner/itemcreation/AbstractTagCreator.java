@@ -137,13 +137,6 @@ public abstract class AbstractTagCreator implements ITagCreator
         		}else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.nodeName_LABEL; 
         		}
-//        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-//            		
-//        		}
-////        		else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_TEXTAREA)){
-////        			
-////        		}
-//        		else 
         		if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
