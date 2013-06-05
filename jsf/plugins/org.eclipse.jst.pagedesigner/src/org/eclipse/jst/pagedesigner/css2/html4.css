@@ -82,7 +82,7 @@ textarea,
 input 			{background-color: window}
 input,
 input[type=text],
-input[type=password] {border: 2px inset;font-size:13px;font-family:sans-serif;font-weight: normal;}
+input[type=password] {border: 2px inset #aaa;font-size:13px;font-family:sans-serif;font-weight: normal;}
 /* following upcased TYPE is for workaround the WTP M2 bug of not setting default content type */
 input[TYPE=submit],input[TYPE=reset],input[TYPE=button],input[TYPE=cancel],
 button,
