@@ -10,24 +10,10 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.itemcreation;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.dom.IDOMPosition;
-import org.eclipse.jst.pagedesigner.editors.palette.ITagDropSourceData;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import com.founder.fix.base.wpe.FormPageUtil;
-import com.founder.fix.base.wpe.TempStatic;
-import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
-import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
-import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
-import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.properties.ConstantProperty;
-
 
 /**
  * The abstract class from which all client ITagCreator instances
@@ -49,18 +35,20 @@ public abstract class AbstractTagCreator implements ITagCreator
      */
     public final Element createTag(final CreationData creationData) 
     {
-
         final ITagCreationAdvisor  advisor = selectCreationAdvisor(creationData);
+        
         // adjust the creation position to accommodate required containers
         final IDOMPosition position = 
             advisor.checkAndApplyNecessaryContainers(creationData.getModel(), creationData.getDomPosition());
         
         if (position == null) return null;//throw exception?
+
         creationData.setAdjustedPosition(position);
         
         // create the element
         final Element ele =  createElement(creationData);
         if (ele == null) return null;//throw exception?
+
         // apply tag customization
         advisor.applyCustomization(creationData.getModel(), ele);
 
@@ -70,157 +58,9 @@ public abstract class AbstractTagCreator implements ITagCreator
         // a state where there are no error flags to tell the user something is
         // missing, but may initialize the tag with an (empty) invalid value
         //ensureRequiredAttrs(ele, creationData);
-        
-        IDOMDocument domDocument = creationData.getModel().getDocument();
-    	ITagDropSourceData  provider = creationData.getTagCreationProvider();
-    	String componentType = provider.getId();
-    	
-    	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
-    	
-    	
-    	Node htmlNode = AbstractTagCreatorProvider.
-    			getPointParentNode((IDOMNode)position.getContainerNode(),
-    					AbstractTagCreatorProvider.nodeName_HTML);
-    	String detailBizObjName = null;
-    	String detailTableId = null;
-    	if(htmlNode!=null){
-        	if(provider.getNamespace().equals("founderfix1")//$NON-NLS-1$
-        			&&!componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
-        			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
-        			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)
-        			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
-        		String nodeId = AbstractTagCreatorProvider.
-            			getAutoAttrValue(htmlNode, componentType);
-            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-            			nodeId);
-        		//static
-        		DetailTable dialog = new DetailTable(null);
-        		if (dialog.open() == Dialog.OK) {
-        			int colCount = dialog.getColCount();
-        			int rowCount = dialog.getRowCount();
-        			detailBizObjName = dialog.getBizObjName();
-        			
-        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
-        					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
-        			if(dialog.isDeatailTable==true){
-        				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-        						,AbstractTagCreatorProvider.tagAttrValue_TRUE); 
-        				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_BIZOBJ,
-        						detailBizObjName);
-        			}else{
-        				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-        						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
-        			}
-        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
-        					domDocument,ele,htmlNode,dialog.aISelectionState);
-    			}else{
-    				return null;
-    			}
-        		addTagToContainer(position, ele);
-                return ele;
-        	}
-        	
-        	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
-        			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)
-        			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
-        		
-        		String nodeId = AbstractTagCreatorProvider.
-            			getAutoAttrValue(htmlNode, componentType);
-            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-            			nodeId);
-        		
-        		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-        			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
-        			ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
-        		}else if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
-        			componentType = AbstractTagCreatorProvider.nodeName_LABEL; 
-        		}
-        		if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
-        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
-        			ele.appendChild(node);
-        		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)){
-        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        			IDOMNode node = (IDOMNode) domDocument.createTextNode("\u5B57\u6BB5\u540D"); //$NON-NLS-1$
-        			ele.appendChild(node);
-        		}else{
-            		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        		}
-        		
-            	Node templateTrNode = AbstractTagCreatorProvider.
-            			getPointParentNode((IDOMNode)position.getContainerNode(),
-            					AbstractTagCreatorProvider.nodeName_TR);
-            	
-            	Boolean isDetailTag = false;
-            	String bizObjTypes = ConstantProperty.bizObjTypes[0]
-            			+"-"+ConstantProperty.typeMainValue; //$NON-NLS-1$
-            	
-            	if(templateTrNode!=null){
-            		NamedNodeMap nodeAttributes = templateTrNode.getAttributes();
-            		Node attrNode = nodeAttributes.getNamedItem("repeat"); //$NON-NLS-1$
-            		if(attrNode != null){ 
-            			if(!attrNode.getNodeValue().equals("template")){ //$NON-NLS-1$
-                    		while(!templateTrNode.getParentNode().getNodeName().equals(
-                        			AbstractTagCreatorProvider.nodeName_BODY)){
-                    			templateTrNode = templateTrNode.getParentNode();
-                    			
-                    			if(templateTrNode.getNodeName().equals(
-                    					AbstractTagCreatorProvider.nodeName_TR)){
-                            		if(templateTrNode.getAttributes().getNamedItem("repeat").  //$NON-NLS-1$
-                        					getNodeValue().equals("template")){//$NON-NLS-1$
-                            			
-                            			isDetailTag = true;
-                            			detailBizObjName = templateTrNode.getAttributes().
-                                				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
-                                						).getNodeValue();
-                            			detailTableId = templateTrNode.getAttributes().
-                                				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
-                                						).getNodeValue();
-                            			
-                            			bizObjTypes = ConstantProperty.bizObjTypes[1]+"-" //$NON-NLS-1$
-                            					+templateTrNode.getAttributes().getNamedItem(
-                            							AbstractTagCreatorProvider.tagAttr_ID).getNodeValue();
-                            			break;
-                            		}
-                    			}
-                        	}
-                    	}else{
-                    		isDetailTag = true;
-                    		detailBizObjName = templateTrNode.getAttributes().
-                    				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
-                    						).getNodeValue();
-                    		detailTableId = templateTrNode.getAttributes().
-                    				getNamedItem("detailTableId").getNodeValue(); //$NON-NLS-1$
-                    	}
-            		}
-            	}
-            	if(isDetailTag){
-            		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$
-            	}
-        		
-        		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
-        				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
-        		if(coment!=null
-        				&&!coment.getTextContent().equals("")){ //$NON-NLS-1$
-        			ele.appendChild(coment);
-        		}
-        	}
-        	
-			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, 
-					AbstractTagCreatorProvider.nodeName_HEAD);
-			
-			if(headNode!=null){
-				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
-						componentType, AbstractTagCreatorProvider.jsRef);
-				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
-						componentType, AbstractTagCreatorProvider.cssRef);
-			}
-    	}
 
-    	
         addTagToContainer(position, ele);
+
         return ele;
     }
 
