@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.itemcreation.internal;
 
-import org.eclipse.jst.pagedesigner.itemcreation.AbstractTagCreator;
 import org.eclipse.jst.pagedesigner.itemcreation.CreationData;
+import org.eclipse.jst.pagedesigner.itemcreation.FixAbstractTagCreator;
 import org.eclipse.jst.pagedesigner.itemcreation.ITagCreationAdvisor;
 
 /**
@@ -19,7 +19,7 @@ import org.eclipse.jst.pagedesigner.itemcreation.ITagCreationAdvisor;
  * 
  * Uses org.eclipse.jst.jsf.common.metadata 
  */
-public class DefaultTagCreator extends AbstractTagCreator 
+public class DefaultTagCreator extends FixAbstractTagCreator 
 {
 
     @Override
