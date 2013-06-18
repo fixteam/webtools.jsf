@@ -32,13 +32,13 @@ import com.founder.fix.base.wpe.FormPageUtil;
  * @author mengbo
  * @version 1.5
  */
-public class FixConverterFactory implements IConverterFactory {
+public class FIXConverterFactory implements IConverterFactory {
     private final ILabelProvider  _labelProvider;
     
 	/**
 	 * 
 	 */
-	public FixConverterFactory() {
+	public FIXConverterFactory() {
         _labelProvider = new MyLabelProvider();
 	}
 

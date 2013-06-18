@@ -20,7 +20,7 @@ import org.eclipse.jst.jsf.common.ui.internal.utils.JSFSharedImages;
 import org.eclipse.jst.jsf.core.internal.tld.CMUtil;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.PageDesignerTraceOptions;
-import org.eclipse.jst.pagedesigner.converter.founderfix.FixConverterFactory;
+import org.eclipse.jst.pagedesigner.converter.founderfix.FIXConverterFactory;
 import org.eclipse.jst.pagedesigner.converter.html.HTMLConverterFactory;
 import org.eclipse.jst.pagedesigner.converter.jsp.JSPConverterFactory;
 import org.eclipse.swt.graphics.Image;
@@ -54,7 +54,7 @@ public class ConverterFactoryRegistry
         }
         _factories.add(new JSPConverterFactory());
         _factories.add(new HTMLConverterFactory());
-        _factories.add(new FixConverterFactory());
+        _factories.add(new FIXConverterFactory());
         
         // TODO: this is not ideal, but until we get a better system for 
         // doing converter factory ordering:
