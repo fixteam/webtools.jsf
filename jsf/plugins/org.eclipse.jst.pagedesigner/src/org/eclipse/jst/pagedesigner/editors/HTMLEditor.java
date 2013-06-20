@@ -102,7 +102,7 @@ import org.eclipse.wst.xml.ui.internal.provisional.IDOMSourceEditingTextTools;
 import org.w3c.dom.Document;
 
 import com.founder.fix.base.wpe.ConstantVariable;
-import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView;
 import com.founder.fix.fixwpe.wpeformdesigner.HTMLEditorProvider;
 
@@ -877,26 +877,29 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			}
 
 			public void partActivated(IWorkbenchPartReference partRef) {
-				// BizObjFieldsView   com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView
-				if(partRef.getId().contains(WPEBizObjFieldsView.viewPartID)
-						||partRef.getId().equals(WPEBizObjFieldsView.viewPartID)){
-					WPEBizObjFieldsView.setBizObjFields(ConstantVariable.formDesignType[1]);
+				
+				CurrentRemember.setCurrentFixEditor(partRef.getId());
+				CurrentRemember.setCurrentFixView(partRef.getId());
+				// MainEditor
+				if(partRef.getId().equals(WPEBizObjFieldsView.viewPartID)
+						&&CurrentRemember.currentFixEditorName.equals(
+								ConstantVariable.editorName_htm)){ 
+					WPEBizObjFieldsView.setBizObjFields(true);
+					return ;
 				}
 				
 				
-				/*
-				 *	@author Fifteenth
-				 *		以这个方式激活属性页，原理还不懂
-				 *		q:为什么要激活？
-				 *		a:因为绑定字段走的是修改属性页属性的方式
-				 *
-				 *		
-				 *		这么搞有个很严重的bug
-				 */
-//				IWorkbenchPage page = PlatformUI.getWorkbench()
-//						.getActiveWorkbenchWindow().getActivePage();
-//				IViewPart sheet = page.findView(IPageLayout.ID_PROP_SHEET);
-//				sheet.setFocus();
+				// htm
+				if(partRef.getId().endsWith("HTMLEditor")){//$NON-NLS-1$
+					WPEBizObjFieldsView.setBizObjFields(true);
+				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+					WPEBizObjFieldsView.setBizObjFields(false);
+				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+					WPEBizObjFieldsView.setBizObjFields(false);
+				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+					WPEBizObjFieldsView.setBizObjFields(false);
+				}
+				return;
 			}
 
 			public void partBroughtToTop(IWorkbenchPartReference partRef) {
@@ -1420,7 +1423,7 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 	public void setFocus() {
 		// TODO Auto-generated method stub
 		if(getActiveEditor().getEditorInput() instanceof FileEditorInput){
-			FormPageUtil.currentFormPagePath = ((FileEditorInput)getActiveEditor().
+			CurrentRemember.currentFormPagePath = ((FileEditorInput)getActiveEditor().
 					getEditorInput()).getFile().getLocation().toString();
 		}
 		

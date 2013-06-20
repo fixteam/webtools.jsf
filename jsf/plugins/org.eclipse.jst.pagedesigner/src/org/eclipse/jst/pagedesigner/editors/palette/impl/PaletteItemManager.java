@@ -53,7 +53,7 @@ import org.eclipse.wst.html.core.internal.contentmodel.HTMLCMDocumentFactory;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.contentmodel.CMDocType;
 
-import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.base.wpe.TempStatic;
 
 /**
@@ -114,9 +114,9 @@ public class PaletteItemManager implements IPaletteItemManager,
 		 *		2.formPagePath
 		 *		3.webProjectName
 		 */
-		FormPageUtil.formPageFile = paletteContext.getFile();
-		FormPageUtil.currentFormPagePath = FormPageUtil.formPageFile.getLocation().toString();
-		FormPageUtil.webProjectName = ((File)paletteContext.getFile()).getProject().getName();
+		CurrentRemember.formPageFile = paletteContext.getFile();
+		CurrentRemember.currentFormPagePath = CurrentRemember.formPageFile.getLocation().toString();
+		CurrentRemember.webProjectName = ((File)paletteContext.getFile()).getProject().getName();
 		
 		
 		boolean hasLock = false;

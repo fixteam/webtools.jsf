@@ -55,7 +55,7 @@ import org.eclipse.wst.xml.core.internal.contentmodel.CMDocument;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMElementDeclaration;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMNamedNodeMap;
 
-import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 
 
@@ -273,8 +273,8 @@ public class PaletteHelper {
 	
 	
 	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category){
-		String pagePage = FormPageUtil.currentFormPagePath;
-		String webProjectName = FormPageUtil.webProjectName;
+		String pagePage = CurrentRemember.currentFormPagePath;
+		String webProjectName = CurrentRemember.webProjectName;
 		String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
 				+"/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
 		ImageDescriptor imageDescriptor = null;
@@ -293,8 +293,8 @@ public class PaletteHelper {
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
 		XmlPropBufferProvider.getComponentJson();
 		
-		String pagePage = FormPageUtil.currentFormPagePath;
-		String webProjectName = FormPageUtil.webProjectName;
+		String pagePage = CurrentRemember.currentFormPagePath;
+		String webProjectName = CurrentRemember.webProjectName;
 		
 		for(int i=0;i<XmlPropBufferProvider.componentList.size();i++){
 			HashMap<String,Object> map= XmlPropBufferProvider.componentList.get(i);

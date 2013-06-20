@@ -25,7 +25,7 @@ import org.eclipse.jst.pagedesigner.converter.ITagConverter;
 import org.eclipse.swt.graphics.Image;
 import org.w3c.dom.Element;
 
-import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.CurrentRemember;
 
 
 /**
@@ -102,12 +102,12 @@ public class FIXConverterFactory implements IConverterFactory {
 ////                						hostElement.getLocalName()); 
 ////                				"JQRate");  //$NON-NLS-1$
                 		
-                		if(FormPageUtil.currentFormPagePath==null){
+                		if(CurrentRemember.currentFormPagePath==null){
                 			return null;
                 		}
                 		
-                		String pagePage = FormPageUtil.currentFormPagePath;
-                		String webProjectName = FormPageUtil.webProjectName;
+                		String pagePage = CurrentRemember.currentFormPagePath;
+                		String webProjectName = CurrentRemember.webProjectName;
                 		String Path = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
                 				+"/WebRoot/components/"+hostElement.getAttribute("ComponentType").trim()+"/design.jpg";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
                 		return new Image(null, Path); 

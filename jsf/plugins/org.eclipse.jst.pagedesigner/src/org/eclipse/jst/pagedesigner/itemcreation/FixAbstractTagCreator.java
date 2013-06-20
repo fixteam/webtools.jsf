@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import com.founder.fix.base.wpe.FormPageUtil;
+import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.base.wpe.TempStatic;
 import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 import com.founder.fix.fixwpe.wpeformdesigner.dialog.DetailTable;
@@ -75,7 +75,7 @@ public abstract class FixAbstractTagCreator implements ITagCreator
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
     	String componentType = provider.getId();
     	
-    	XmlPropBufferProvider.initProperty(FormPageUtil.currentFormPagePath);
+    	XmlPropBufferProvider.initProperty(CurrentRemember.currentFormPagePath);
     	
     	
     	Node htmlNode = AbstractTagCreatorProvider.
