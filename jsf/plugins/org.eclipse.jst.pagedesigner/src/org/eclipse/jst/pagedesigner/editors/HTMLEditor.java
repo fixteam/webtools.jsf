@@ -892,12 +892,18 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 				// htm
 				if(partRef.getId().endsWith("HTMLEditor")){//$NON-NLS-1$
 					WPEBizObjFieldsView.setBizObjFields(true);
-				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+					
+					if(CurrentRemember.needFixImplFlag){
+						CurrentRemember.setFixImpl();
+					}
+					
+				}
+				else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
 					WPEBizObjFieldsView.setBizObjFields(false);
-				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
-					WPEBizObjFieldsView.setBizObjFields(false);
-				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
-					WPEBizObjFieldsView.setBizObjFields(false);
+//				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+//					WPEBizObjFieldsView.setBizObjFields(false);
+//				}else if(partRef.getId().endsWith("BizEditor")){//$NON-NLS-1$
+//					WPEBizObjFieldsView.setBizObjFields(false);
 				}
 				return;
 			}
