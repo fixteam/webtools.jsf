@@ -71,6 +71,11 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         //ensureRequiredAttrs(ele, creationData);
         
 //        IDOMDocument domDocument = creationData.getModel().getDocument();
+        
+        if(CurrentRemember.webThemeName==null){
+        	AbstractTagCreatorProvider.getTheme();
+        }
+        
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
     	String componentType = provider.getId();
     	
