@@ -11,8 +11,11 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.commands.range;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jst.pagedesigner.commands.DesignerCommand;
 import org.eclipse.jst.pagedesigner.dom.DOMPositionHelper;
 import org.eclipse.jst.pagedesigner.dom.DOMRange;
@@ -23,7 +26,10 @@ import org.eclipse.jst.pagedesigner.parts.ElementEditPart;
 import org.eclipse.jst.pagedesigner.viewer.DesignPosition;
 import org.eclipse.jst.pagedesigner.viewer.DesignRange;
 import org.eclipse.jst.pagedesigner.viewer.IHTMLGraphicalViewer;
+import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.w3c.dom.Node;
+
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 
 /**
  * @author mengbo
@@ -51,6 +57,19 @@ public abstract class RangeModeCommand extends DesignerCommand {
 		int position = -1;
 		int length = -1;
 		ISelection selection = getViewer().getSelection();
+		
+		
+		/*
+		 *	@author Fifteenth
+		 *		delete ref
+		 */
+		List <ElementEditPart> list = ((StructuredSelection) selection).toList();
+		for(int i=0;i<list.size();i++){
+			ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
+			AbstractTagCreatorProvider.delRef(impl);
+		}
+		
+		
 		if (selection != null) {
 			if (getViewer().isInRangeMode()) {
 				DesignRange range = (DesignRange) selection;

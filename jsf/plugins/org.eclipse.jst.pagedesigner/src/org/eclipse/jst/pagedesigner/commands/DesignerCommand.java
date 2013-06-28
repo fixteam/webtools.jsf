@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.jst.pagedesigner.commands;
 
+import java.util.List;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -35,6 +37,7 @@ import org.eclipse.jst.pagedesigner.viewer.DesignRange;
 import org.eclipse.jst.pagedesigner.viewer.HTMLGraphicalViewer;
 import org.eclipse.jst.pagedesigner.viewer.IHTMLGraphicalViewer;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.wst.html.core.internal.document.ElementStyleImpl;
 import org.eclipse.wst.html.core.internal.format.HTMLFormatProcessorImpl;
 import org.eclipse.wst.sse.core.internal.provisional.INodeNotifier;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
@@ -43,6 +46,8 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
 
 /**
  * This class is intended to be the base class for all designer GEF commands.
@@ -154,6 +159,30 @@ public abstract class DesignerCommand extends Command {
 		int position = -1;
 		int length = -1;
 		ISelection selection = getViewer().getSelection();
+		
+		
+		/*
+		 *	@author Fifteenth
+		 *		delete ref
+		 */
+		
+		/*
+		 *	@author Fifteenth
+		 *		delete ref
+		 */
+		if(!(this instanceof CreateItemCommand)
+				&&selection instanceof StructuredSelection){
+			List <ElementEditPart> list = ((StructuredSelection) selection).toList();
+			for(int i=0;i<list.size();i++){
+				if(list.get(0) instanceof ElementEditPart){
+					ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
+					AbstractTagCreatorProvider.delRef(impl);
+				}
+				
+			}
+		}
+		
+		
 		if (selection != null) {
 			if (getViewer().isInRangeMode()) {
 				DesignRange range = (DesignRange) selection;

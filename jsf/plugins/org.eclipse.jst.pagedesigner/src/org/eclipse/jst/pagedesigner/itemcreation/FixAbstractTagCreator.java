@@ -14,7 +14,6 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jst.jsf.core.internal.tld.ITLDConstants;
 import org.eclipse.jst.pagedesigner.dom.IDOMPosition;
 import org.eclipse.jst.pagedesigner.editors.palette.ITagDropSourceData;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.w3c.dom.Element;
@@ -71,7 +70,7 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         // missing, but may initialize the tag with an (empty) invalid value
         //ensureRequiredAttrs(ele, creationData);
         
-        IDOMDocument domDocument = creationData.getModel().getDocument();
+//        IDOMDocument domDocument = creationData.getModel().getDocument();
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
     	String componentType = provider.getId();
     	
@@ -111,8 +110,10 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
         						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
         			}
-        			AbstractTagCreatorProvider.createDetailTalbe(colCount,rowCount,nodeId,detailBizObjName,
-        					domDocument,ele,htmlNode,dialog.aISelectionState);
+        			AbstractTagCreatorProvider.createDetailTalbe(
+        					colCount,rowCount,nodeId,detailBizObjName,
+//        					domDocument,
+        					ele,htmlNode,dialog.aISelectionState);
     			}else{
     				return null;
     			}
@@ -139,11 +140,11 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         		}
         		if(componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        			IDOMNode node = (IDOMNode) domDocument.createTextNode("label"); //$NON-NLS-1$
+        			IDOMNode node = (IDOMNode) ele.getOwnerDocument().createTextNode("label"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else if(componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)){
         			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
-        			IDOMNode node = (IDOMNode) domDocument.createTextNode("\u5B57\u6BB5\u540D"); //$NON-NLS-1$
+        			IDOMNode node = (IDOMNode) ele.getOwnerDocument().createTextNode("\u5B57\u6BB5\u540D"); //$NON-NLS-1$
         			ele.appendChild(node);
         		}else{
             		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
@@ -201,7 +202,9 @@ public abstract class FixAbstractTagCreator implements ITagCreator
             	}
         		
         		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
-        				componentType, domDocument,nodeId,isDetailTag,bizObjTypes);
+        				componentType, 
+        				ele.getOwnerDocument(),
+        				nodeId,isDetailTag,bizObjTypes);
         		if(coment!=null
         				&&!coment.getTextContent().equals("")){ //$NON-NLS-1$
         			ele.appendChild(coment);
@@ -212,9 +215,11 @@ public abstract class FixAbstractTagCreator implements ITagCreator
 					AbstractTagCreatorProvider.nodeName_HEAD);
 			
 			if(headNode!=null){
-				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
+				AbstractTagCreatorProvider.addRef(headNode, 
+//						domDocument, 
 						componentType, AbstractTagCreatorProvider.jsRef);
-				AbstractTagCreatorProvider.setRef(headNode, domDocument, 
+				AbstractTagCreatorProvider.addRef(headNode, 
+//						domDocument, 
 						componentType, AbstractTagCreatorProvider.cssRef);
 			}
     	}
