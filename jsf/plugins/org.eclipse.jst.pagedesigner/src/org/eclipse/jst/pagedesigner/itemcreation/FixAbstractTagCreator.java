@@ -221,10 +221,8 @@ public abstract class FixAbstractTagCreator implements ITagCreator
 			
 			if(headNode!=null){
 				AbstractTagCreatorProvider.addRef(headNode, 
-//						domDocument, 
 						componentType, AbstractTagCreatorProvider.jsRef);
 				AbstractTagCreatorProvider.addRef(headNode, 
-//						domDocument, 
 						componentType, AbstractTagCreatorProvider.cssRef);
 			}
     	}
