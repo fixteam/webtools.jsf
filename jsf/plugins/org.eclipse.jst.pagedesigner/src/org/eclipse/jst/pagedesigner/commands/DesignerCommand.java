@@ -170,7 +170,7 @@ public abstract class DesignerCommand extends Command {
 		 *	@author Fifteenth
 		 *		delete ref
 		 */
-		if(!(this instanceof CreateItemCommand)
+		if((this instanceof DeleteNodeCommand)
 				&&selection instanceof StructuredSelection){
 			List <ElementEditPart> list = ((StructuredSelection) selection).toList();
 			for(int i=0;i<list.size();i++){

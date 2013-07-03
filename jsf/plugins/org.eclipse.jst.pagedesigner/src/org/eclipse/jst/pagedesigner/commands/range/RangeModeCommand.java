@@ -63,14 +63,15 @@ public abstract class RangeModeCommand extends DesignerCommand {
 		 *	@author Fifteenth
 		 *		delete ref
 		 */
-		if(selection instanceof StructuredSelection){
-			List <ElementEditPart> list = ((StructuredSelection) selection).toList();
-			for(int i=0;i<list.size();i++){
-				ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
-				AbstractTagCreatorProvider.delRef(impl);
+		if(this instanceof DeleteCommand) {
+			if(selection instanceof StructuredSelection){
+				List <ElementEditPart> list = ((StructuredSelection) selection).toList();
+				for(int i=0;i<list.size();i++){
+					ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
+					AbstractTagCreatorProvider.delRef(impl);
+				}
 			}
 		}
-		
 		
 		
 		if (selection != null) {
