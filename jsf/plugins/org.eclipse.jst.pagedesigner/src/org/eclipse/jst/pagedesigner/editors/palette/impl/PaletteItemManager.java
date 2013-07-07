@@ -55,6 +55,7 @@ import org.eclipse.wst.xml.core.internal.provisional.contentmodel.CMDocType;
 
 import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.base.wpe.TempStatic;
+import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
 
 /**
  *  Manages tag library palette by palette context.   Capable of handling JSP and XHTML content types.
@@ -385,13 +386,15 @@ public class PaletteItemManager implements IPaletteItemManager,
 //		final CMDocument doc = HTMLCMDocumentFactory.getCMDocument(CMDocType.FOUNDERFIX_DOC_TYPE);
 //		_paletteHelper.getOrCreateTaglibPaletteDrawer(this, doc, CMDocType.FOUNDERFIX_DOC_TYPE);
 		
+		XmlPropBufferProvider.initProperty(CurrentRemember.currentFormPagePath);
 		
 		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory("founderfix1","\u57FA\u7840\u7EC4\u4EF6"); //$NON-NLS-1$ //$NON-NLS-2$
 		_paletteHelper.loadFounderfixStaticTags(founderfixStaticDrawer);
 		
-		String drawerType[] = TempStatic.categories;
-		for(int i=0;i<drawerType.length;i++){
-			TaglibPaletteDrawer founderfixDrawer = findOrCreateCategory(drawerType[i],drawerType[i]);
+		List <String>drawerTypeList = TempStatic.categoriesList;
+		for(int i=0;i<drawerTypeList.size();i++){
+			TaglibPaletteDrawer founderfixDrawer = findOrCreateCategory(
+					drawerTypeList.get(i),drawerTypeList.get(i));
 			_paletteHelper.loadFounderfixTags(founderfixDrawer);
 		}
 	}
