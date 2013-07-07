@@ -90,7 +90,7 @@ public class DefaultDTInfoFactory implements IDTInfoFactory {
         	uri = CMDocType.JSP11_DOC_TYPE;
         if (uri.equals("html")) //$NON-NLS-1$
         	uri = CMDocType.HTML_DOC_TYPE;
-        if (TempStatic.getCategoriesList().equals(uri))
+        if (TempStatic.categoriesList.equals(uri))
         	uri = CMDocType.FOUNDERFIX_DOC_TYPE;
         return uri;
     }

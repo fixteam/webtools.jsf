@@ -40,9 +40,9 @@ public class Fix6SectionDescriptor extends AbstractSectionDescriptor {
 	}
 
 	public ISection getSectionClass() {
-		if (section == null){
+//		if (section == null){
 			section = new Fix6PropertySection(_propertyType);
-		}
+//		}
 		return section;
 	}
 

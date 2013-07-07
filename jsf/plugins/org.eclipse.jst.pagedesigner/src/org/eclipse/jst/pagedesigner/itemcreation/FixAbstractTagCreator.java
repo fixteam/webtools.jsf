@@ -126,7 +126,7 @@ public abstract class FixAbstractTagCreator implements ITagCreator
                 return ele;
         	}
         	
-        	if(TempStatic.getCategoriesList().contains(provider.getNamespace())
+        	if(TempStatic.categoriesList.contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)

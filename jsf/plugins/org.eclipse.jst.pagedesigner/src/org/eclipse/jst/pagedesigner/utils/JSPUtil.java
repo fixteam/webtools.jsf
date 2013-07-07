@@ -94,7 +94,7 @@ public class JSPUtil {
 	public static String getOrCreatePrefix(IDOMModel model, String uri,
 			String defaultPrefix, Node[] nodes) {
 		
-		if(TempStatic.getCategoriesList().contains(uri)
+		if(TempStatic.categoriesList.contains(uri)
 				||TempStatic.staticCategory.equals(uri)){
 			return ""; //$NON-NLS-1$
 		}
