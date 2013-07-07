@@ -12,6 +12,9 @@
 package org.eclipse.jst.pagedesigner.properties;
 
 //import org.eclipse.jst.pagedesigner.meta.internal.CategoryNameComparator;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
@@ -25,14 +28,30 @@ import org.eclipse.ui.views.properties.PropertySheetSorter;
  */
 public class AttributePropertySheetPage extends PropertySheetPage {
 //	TODO: add actions
-//	public void makeContributions(IMenuManager menuManager,
-//			IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-//		super.makeContributions(menuManager, toolBarManager, statusLineManager);
-//		//add actions here
+	
+	// founderfix BUG#14705
+	public void makeContributions(IMenuManager menuManager,
+			IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
+		menuManager.removeAll();
+		toolBarManager.removeAll();
+		super.makeContributions(menuManager, toolBarManager, statusLineManager);
+		//add actions here
 //			hide/show all categories
 //			collapse
 //			remove
-//	}
+		
+	}
+	
+	
+	// founderfix BUG#14705
+	public void setActionBars(org.eclipse.ui.IActionBars actionBars) {
+//		actionBars.getToolBarManager().removeAll();
+//		actionBars.getMenuManager().removeAll();
+		super.setActionBars(actionBars);
+	};
+	
+	
+	
 
 	/**
 	 * Use my sorter to sort the category name. Only override the

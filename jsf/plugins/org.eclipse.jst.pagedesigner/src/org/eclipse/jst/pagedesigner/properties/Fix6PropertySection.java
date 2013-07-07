@@ -43,6 +43,9 @@ public class Fix6PropertySection extends AbstractPropertySection {
 	 * selected tag IDOMElement 
 	 */
 	protected IDOMElement _element;
+	
+	
+	protected Boolean isFixInit = false ;
 
 	/**
 	 * The INodeAdapter to use for notification of model change
@@ -95,6 +98,13 @@ public class Fix6PropertySection extends AbstractPropertySection {
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		IDOMElement newEle = (IDOMElement) DesignerPropertyTool.getElement(
 				part, selection);
+		
+		// founderfix BUG#14705
+		if(!isFixInit){
+			page.setActionBars(page.getSite().getActionBars());
+			isFixInit = true;
+		}
+		
 
 		if (_element != newEle && page != null) {
 			super.setInput(part, selection);
