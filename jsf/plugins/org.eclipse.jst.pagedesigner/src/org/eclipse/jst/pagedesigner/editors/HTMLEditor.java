@@ -101,11 +101,13 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.ui.internal.provisional.IDOMSourceEditingTextTools;
 import org.w3c.dom.Document;
 
+import com.founder.fix.apputil.util.ObjViewUtil;
 import com.founder.fix.base.wpe.ConstantVariable;
 import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.fixwpe.platformdesigner.views.WPEBizObjFieldsView;
 import com.founder.fix.fixwpe.wpeformdesigner.HTMLEditorProvider;
-
+import com.founder.fix.designer.base.platformdesigner.Entity.project.BizobjEntity.BizObjCache;
+import com.founder.fix.apputil.to.view.FormViewTo;
 /**
  * The HTMLEditor is a multi paged editor. It will use the StructuredTextEditor
  * as the chief editor, and delegate most operations to it.
@@ -599,6 +601,23 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 				e.printStackTrace();
 			}
         }
+        
+        if(BizObjCache.formViewSaveFlag){
+        	try {
+            	Iterator iterator = BizObjCache.formViewMap.keySet().iterator();
+            	while(iterator.hasNext()){
+            		String key = iterator.next().toString();
+            		FormViewTo formViewTo = BizObjCache.formViewMap.get(key);
+            		ObjViewUtil.saveForm(formViewTo, key);
+            	}
+            	BizObjCache.formViewSaveFlag = false;
+            	BizObjCache.formViewMap.clear();
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
+        
 	}
 
 	/*

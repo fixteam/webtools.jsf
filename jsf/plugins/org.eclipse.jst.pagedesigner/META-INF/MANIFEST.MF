@@ -622,7 +622,10 @@ Export-Package: org.eclipse.jst.pagedesigner;
    org.eclipse.gef.ui.parts,
    org.eclipse.gef,
    org.eclipse.jst.pagedesigner.validation.caret"
-Import-Package: javax.servlet.jsp.el;version="2.0.0",
+Import-Package: com.founder.fix.apputil.to.view,
+ com.founder.fix.apputil.util,
+ com.founder.fix.designer.base.platformdesigner.Entity.project.BizobjEntity,
+ javax.servlet.jsp.el;version="2.0.0",
  org.eclipse.jst.pagedesigner.converter,
  org.eclipse.jst.pagedesigner.properties
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

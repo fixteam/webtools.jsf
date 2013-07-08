@@ -165,19 +165,17 @@ public abstract class DesignerCommand extends Command {
 		 *	@author Fifteenth
 		 *		delete ref
 		 */
-		
-		/*
-		 *	@author Fifteenth
-		 *		delete ref
-		 */
 		if((this instanceof DeleteNodeCommand)
 				&&selection instanceof StructuredSelection){
 			List <ElementEditPart> list = ((StructuredSelection) selection).toList();
-			for(int i=0;i<list.size();i++){
+//			for(int i=0;i<list.size();i++){
 				if(list.get(0) instanceof ElementEditPart){
 					ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
-					AbstractTagCreatorProvider.delRef(impl);
-				}
+//					AbstractTagCreatorProvider.delRef(impl);
+					
+					AbstractTagCreatorProvider.delTag(impl);
+					
+//				}
 				
 			}
 		}
