@@ -242,7 +242,7 @@ public class ElementEditPart extends SubNodeEditPart {
 		/*
 		 * founderfix
 		 */
-		if(appendString.equals("span")){ //$NON-NLS-1$
+		if(appendString.toLowerCase().equals("span")){ //$NON-NLS-1$
 			appendString = ""; //$NON-NLS-1$
 		}
 		provider.setLabel(appendString);

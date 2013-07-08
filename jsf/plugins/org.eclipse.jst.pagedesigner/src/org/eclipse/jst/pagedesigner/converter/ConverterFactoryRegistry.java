@@ -28,6 +28,8 @@ import org.eclipse.wst.xml.core.internal.contentmodel.CMElementDeclaration;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.w3c.dom.Element;
 
+import com.founder.fix.fixwpe.wpeformdesigner.jst.pagedesigner.itemcreation.AbstractTagCreatorProvider;
+
 /**
  * @author mengbo
  * @version 1.5
@@ -99,7 +101,8 @@ public class ConverterFactoryRegistry
         /*
          *	@author Fifteenth
          */
-        if(ele.getTagName().equals("span")){ //$NON-NLS-1$
+        if(ele.getTagName().toLowerCase().equals("span")//$NON-NLS-1$
+        		&&!ele.getAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType).equals("")){ //$NON-NLS-1$
         	uri = "founderfix"; //$NON-NLS-1$
         }
         // first round, match uri

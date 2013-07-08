@@ -108,6 +108,11 @@ public class FIXConverterFactory implements IConverterFactory {
                 		
                 		String pagePage = CurrentRemember.currentFormPagePath;
                 		String webProjectName = CurrentRemember.webProjectName;
+                		
+                		if(hostElement.getAttribute("ComponentType")==null //$NON-NLS-1$
+                				||hostElement.getAttribute("ComponentType").equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
+                			return null;
+                		}
                 		String Path = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
                 				+"/WebRoot/components/"+hostElement.getAttribute("ComponentType").trim()+"/design.jpg";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
                 		return new Image(null, Path); 
