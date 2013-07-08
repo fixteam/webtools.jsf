@@ -59,21 +59,6 @@ public abstract class RangeModeCommand extends DesignerCommand {
 		ISelection selection = getViewer().getSelection();
 		
 		
-		/*
-		 *	@author Fifteenth
-		 *		delete ref
-		 */
-		if(this instanceof DeleteCommand) {
-			if(selection instanceof StructuredSelection){
-				List <ElementEditPart> list = ((StructuredSelection) selection).toList();
-				for(int i=0;i<list.size();i++){
-					ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
-					AbstractTagCreatorProvider.delRef(impl);
-				}
-			}
-		}
-		
-		
 		if (selection != null) {
 			if (getViewer().isInRangeMode()) {
 				DesignRange range = (DesignRange) selection;
@@ -113,6 +98,26 @@ public abstract class RangeModeCommand extends DesignerCommand {
 			}
 			getViewer().startSelectionChange();
 			getModel().aboutToChangeModel();
+			
+			
+			
+			
+			/*
+			 *	@author Fifteenth
+			 *		delete ref
+			 */
+			if(this instanceof DeleteCommand) {
+				if(selection instanceof StructuredSelection){
+					List <ElementEditPart> list = ((StructuredSelection) selection).toList();
+					for(int i=0;i<list.size();i++){
+						ElementStyleImpl impl =  (ElementStyleImpl)list.get(0).getDOMNode();
+						AbstractTagCreatorProvider.delRef(impl);
+					}
+				}
+			}
+			
+			
+			
 			return true;
 		}
         return false;
