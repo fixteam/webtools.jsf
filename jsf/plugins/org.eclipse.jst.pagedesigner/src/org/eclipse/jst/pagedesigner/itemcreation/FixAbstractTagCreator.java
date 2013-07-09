@@ -95,8 +95,6 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
-            	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
-            			nodeId);
         		//static
         		DetailTable dialog = new DetailTable(null);
         		if (dialog.open() == Dialog.OK) {
@@ -104,21 +102,22 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         			int rowCount = dialog.getRowCount();
         			detailBizObjName = dialog.getBizObjName();
         			
-        			ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
-        					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
-        			if(dialog.isDeatailTable==true){
+        			if(dialog.isDeatailTable==true&&!detailBizObjName.equals("")){ //$NON-NLS-1$
+        				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
+            					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
+        				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
+                    			nodeId);
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
         						,AbstractTagCreatorProvider.tagAttrValue_TRUE); 
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_BIZOBJ,
         						detailBizObjName);
+        				AbstractTagCreatorProvider.createDetailTalbe(
+            					colCount,rowCount,nodeId,detailBizObjName,
+//            					domDocument,
+            					ele,htmlNode,dialog.aISelectionState);
         			}else{
-        				ele.setAttribute(AbstractTagCreatorProvider.tagAttrValue_ISDETAIL
-        						,AbstractTagCreatorProvider.tagAttrValue_FALSE); 
+        				AbstractTagCreatorProvider.createTalbe(colCount,rowCount,ele);
         			}
-        			AbstractTagCreatorProvider.createDetailTalbe(
-        					colCount,rowCount,nodeId,detailBizObjName,
-//        					domDocument,
-        					ele,htmlNode,dialog.aISelectionState);
     			}else{
     				return null;
     			}
