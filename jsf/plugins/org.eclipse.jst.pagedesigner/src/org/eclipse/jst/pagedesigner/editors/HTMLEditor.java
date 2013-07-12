@@ -903,21 +903,24 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 				if(partRef.getId().equals(WPEBizObjFieldsView.viewPartID)
 						&&CurrentRemember.currentFixEditorName.equals(
 								ConstantVariable.editorName_htm)){ 
-					WPEBizObjFieldsView.setBizObjFields(true);
+					if(WPEBizObjFieldsView.needInit){
+						WPEBizObjFieldsView.setBizObjFields(true);
+						WPEBizObjFieldsView.needInit = false;
+					}
 					return ;
 				}
 				
 				
 				// htm
-				if(!partRef.getId().endsWith("HTMLEditor")){//$NON-NLS-1$
-					WPEBizObjFieldsView.setBizObjFields(false);
-					
-//					if(CurrentRemember.needFixImplFlag){
-//						CurrentRemember.setFixImpl();
-//					}
+				if(partRef.getId().endsWith("HTMLEditor")){//$NON-NLS-1$
+					if(WPEBizObjFieldsView.needInit){
+						WPEBizObjFieldsView.setBizObjFields(true);
+						WPEBizObjFieldsView.needInit = false;
+					}
 				}
 				else {
-					WPEBizObjFieldsView.setBizObjFields(true);
+					WPEBizObjFieldsView.setBizObjFields(false);
+					WPEBizObjFieldsView.needInit = true;
 				}
 				return;
 			}
