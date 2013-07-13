@@ -30,9 +30,9 @@ public class AllPropertySectionDescriptor extends AbstractSectionDescriptor {
 	}
 
 	public ISection getSectionClass() {
-		if (section == null){
+//		if (section == null){
 			section = new AllPropertySection();
-		}
+//		}
 		return section;
 	}
 
