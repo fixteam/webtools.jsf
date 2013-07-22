@@ -16,6 +16,8 @@ import java.util.Vector;
 import org.eclipse.ui.views.properties.tabbed.AbstractTabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
 
+import com.founder.fix.base.wpe.ConstantVariable;
+
 /**
  * Attributes tab descriptor
  *
@@ -44,7 +46,7 @@ public class AttributesTabDescriptor extends AbstractTabDescriptor {
 	}
 
 	public String getCategory() {
-		return "attributes"; //$NON-NLS-1$
+		return ConstantVariable.fixAttributes_en;
 	}
 
 	public String getId() {
@@ -52,7 +54,7 @@ public class AttributesTabDescriptor extends AbstractTabDescriptor {
 	}
 
 	public String getLabel() {
-		return Messages.AttributesTabDescriptor_label;
+		return ConstantVariable.fixAttributes_cn;
 	}
 
 }
