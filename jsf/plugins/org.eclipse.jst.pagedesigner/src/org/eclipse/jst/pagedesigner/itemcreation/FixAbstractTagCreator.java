@@ -71,24 +71,43 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         //ensureRequiredAttrs(ele, creationData);
         
 //        IDOMDocument domDocument = creationData.getModel().getDocument();
-        
+       
+        /*
+         * 得到当前主题
+         * 	用于得到组件引用指定的JS和CSS
+         */
         if(CurrentRemember.webThemeName==null){
         	AbstractTagCreatorProvider.getTheme();
         }
         
+        
+        /*
+         * 得到componentType
+         */
     	ITagDropSourceData  provider = creationData.getTagCreationProvider();
+    	
+    	/*
+    	 * componentType为组件类型
+    	 * componentType可能为：HTMLSelect、Ztree、My97DatePicker等
+    	 */
     	String componentType = provider.getId();
     	
+    	/*
+    	 * 初始化所有组件
+    	 */
     	XmlPropBufferProvider.initProperty(CurrentRemember.currentFormPagePath);
     	
-    	
+    	/*
+    	 * 得到htmlNode节点
+    	 */
     	Node htmlNode = AbstractTagCreatorProvider.
     			getPointParentNode((IDOMNode)position.getContainerNode(),
     					AbstractTagCreatorProvider.nodeName_HTML);
     	String detailBizObjName = null;
     	String detailTableId = null;
     	if(htmlNode!=null){
-        	if(provider.getNamespace().equals("founderfix1")//$NON-NLS-1$
+    		
+        	if(provider.getNamespace().equals(TempStatic.staticCategory)
         			&&!componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
         			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
         			&&!componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)
@@ -96,6 +115,9 @@ public abstract class FixAbstractTagCreator implements ITagCreator
 //        		String nodeId = AbstractTagCreatorProvider.
 //            			getAutoAttrValue(htmlNode, componentType);
         		//static
+        		/*
+        		 * 能进该判断的目前（2013.07.24）基础组件中的表格组件
+        		 */
         		DetailTable dialog = new DetailTable(null);
         		if (dialog.open() == Dialog.OK) {
         			int colCount = dialog.getColCount();
@@ -105,6 +127,7 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         			String nodeId = "table_"+detailBizObjName; //$NON-NLS-1$
         			
         			if(dialog.isDeatailTable==true&&!detailBizObjName.equals("")){ //$NON-NLS-1$
+        				//选中了明细表同时选择了明细表
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_CLASS,
             					AbstractTagCreatorProvider.tagAttrValue_CLASS_DETAIL);
         				ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
@@ -127,17 +150,23 @@ public abstract class FixAbstractTagCreator implements ITagCreator
                 return ele;
         	}
         	
+        	/*
+        	 * 基础组件中的：text、textarea、lable、kbd（用于绑定文字的组件）
+        	 */
         	if(TempStatic.categoriesList.contains(provider.getNamespace())
         			||componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_TEXTAREA)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_KBD)
         			||componentType.equals(AbstractTagCreatorProvider.nodeName_LABEL)){ 
         		
+        		//生成组件编号
         		String nodeId = AbstractTagCreatorProvider.
             			getAutoAttrValue(htmlNode, componentType);
+        		//编号作为组件的属性
             	ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ID, 
             			nodeId);
         		
+            	// set组件的一些其他属性，不同的组件属性可能不同
         		if(componentType.equals(AbstractTagCreatorProvider.tagAttr_INPUT)){
         			componentType = AbstractTagCreatorProvider.tagAttrValue_INPUT; 
         			ele.setAttribute("type", "text"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -156,19 +185,37 @@ public abstract class FixAbstractTagCreator implements ITagCreator
             		ele.setAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType, componentType);
         		}
         		
+        		// 向外层遍历，遍历到第一个tr节点，节点可以为null
             	Node templateTrNode = AbstractTagCreatorProvider.
             			getPointParentNode((IDOMNode)position.getContainerNode(),
             					AbstractTagCreatorProvider.nodeName_TR);
             	
+            	// 是否是明细表组件标示
             	Boolean isDetailTag = false;
+            	// 组件的一些关于是否是明细表的信息，会写到注释中去
             	String bizObjTypes = ConstantProperty.bizObjTypes[0]
             			+"-"+ConstantProperty.typeMainValue; //$NON-NLS-1$
             	
+            	
+            	/*
+            	 * 该if用来判断组件是否在明细表中
+            	 * 	不断往外层遍历，遍历到明细表的tr节点（是明细表组件）或者遍历到body节点（非明细表节点）
+            	 * 
+            	 * 明细表的tr节点中，会有明细表的信息：
+            	 *  例如：bizobj="AU_ORGINFO" detailTableId="table_AU_USERINFO"
+            	 */
             	if(templateTrNode!=null){
+            		
             		NamedNodeMap nodeAttributes = templateTrNode.getAttributes();
             		Node attrNode = nodeAttributes.getNamedItem("repeat"); //$NON-NLS-1$
+            		// 
             		if(attrNode != null){ 
             			if(!attrNode.getNodeValue().equals("template")){ //$NON-NLS-1$
+            				/*
+            				 * 不断往外层遍历，结束两种情况：
+            				 * 1.遍历到明细表
+            				 * 2.遍历到body节点
+            				 */
                     		while(!templateTrNode.getParentNode().getNodeName().equals(
                         			AbstractTagCreatorProvider.nodeName_BODY)){
                     			templateTrNode = templateTrNode.getParentNode();
@@ -206,7 +253,19 @@ public abstract class FixAbstractTagCreator implements ITagCreator
             	if(isDetailTag){
             		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$
             	}
-        		
+            	
+        		/*
+        		 * 关于bizObjTypes
+        		 * 	明细表的形式类似于：	detail-table_AU_USERINFO-AU_USERINFO--明细表表示-明细表ID-明细表业务对象名称
+        		 * 	主表的形式类似于：	main-fixbody
+        		 * 是注释的一部分
+        		 */
+            	
+            	
+            	/*
+            	 * 组件的属性以注释形式存在，注释作为dom树的一个节点，
+            	 * 	且作为组件的一个子节点（删除组件的时候自动删掉子节点，不需考虑如何删除，但要考虑删除组件的引用）
+            	 */
         		IDOMNode coment = AbstractTagCreatorProvider.getComentNode(
         				componentType, 
         				ele.getOwnerDocument(),
@@ -217,9 +276,19 @@ public abstract class FixAbstractTagCreator implements ITagCreator
         		}
         	}
         	
+        	
+        	/*
+        	 * 找到head节点
+        	 * 所有的引用都是作为head节点的子节点
+        	 */
 			Node headNode = AbstractTagCreatorProvider.getPointChildNode(htmlNode, 
 					AbstractTagCreatorProvider.nodeName_HEAD);
 			
+			
+			/*
+			 * 添加组件引用
+			 * 	引用作为head节点的子节点
+			 */
 			if(headNode!=null){
 				AbstractTagCreatorProvider.addRef(headNode, 
 						componentType, AbstractTagCreatorProvider.jsRef);

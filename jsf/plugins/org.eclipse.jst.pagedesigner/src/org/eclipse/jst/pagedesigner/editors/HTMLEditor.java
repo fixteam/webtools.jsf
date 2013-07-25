@@ -578,6 +578,11 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 		String formPagePath = ((FileEditorInput)htmlEditor.getEditorInput()).getFile().getLocation().toString();
 		IDocument document;
 		
+		/*
+		 * 两个编辑器
+		 * 	1.代码编辑器可以直接由编辑器得到文本内容
+		 * 	2.图形化的编辑器只能根据决定路径去读取文件
+		 */
         if(htmlEditor instanceof AbstractDecoratedTextEditor
         		){
         	document = ((AbstractDecoratedTextEditor) 
@@ -602,6 +607,10 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 			}
         }
         
+        /*
+         * 老验证体系
+         * 	验证增删改后会把对象放到全局变量里面去，保存的时候再清掉
+         */
         if(BizObjCache.formViewSaveFlag){
         	try {
             	Iterator iterator = BizObjCache.formViewMap.keySet().iterator();

@@ -388,9 +388,11 @@ public class PaletteItemManager implements IPaletteItemManager,
 		
 		XmlPropBufferProvider.initProperty(CurrentRemember.currentFormPagePath);
 		
-		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory("founderfix1","\u57FA\u7840\u7EC4\u4EF6"); //$NON-NLS-1$ //$NON-NLS-2$
+		// 基础组件分类（写死的）
+		TaglibPaletteDrawer founderfixStaticDrawer = findOrCreateCategory(TempStatic.staticCategory,"\u57FA\u7840\u7EC4\u4EF6"); //$NON-NLS-1$ 
 		_paletteHelper.loadFounderfixStaticTags(founderfixStaticDrawer);
 		
+		// 动态组件分类
 		List <String>drawerTypeList = TempStatic.categoriesList;
 		for(int i=0;i<drawerTypeList.size();i++){
 			TaglibPaletteDrawer founderfixDrawer = findOrCreateCategory(

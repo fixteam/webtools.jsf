@@ -9,6 +9,7 @@ encoding//src/org/eclipse/jst/pagedesigner/figurehandler/InputFigureHandler.java
 encoding//src/org/eclipse/jst/pagedesigner/itemcreation/AbstractTagCreationAdvisor.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/itemcreation/AbstractTagCreator.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/itemcreation/CreationData.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/itemcreation/FixAbstractTagCreator.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/properties/AttributePropertySheetPage.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/properties/internal/Messages.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/properties/internal/WPETabDescriptorProvider.java=UTF-8
