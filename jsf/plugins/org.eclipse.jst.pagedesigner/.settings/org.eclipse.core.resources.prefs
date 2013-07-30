@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/org/eclipse/jst/pagedesigner/converter/ConverterFactoryRegistry.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/css2/widget/ButtonWidgetProvider.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/editors/HTMLEditor.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/editors/palette/MetadataTagDropSourceData.java=UTF-8
@@ -14,4 +15,5 @@ encoding//src/org/eclipse/jst/pagedesigner/properties/AttributePropertySheetPage
 encoding//src/org/eclipse/jst/pagedesigner/properties/internal/Messages.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/properties/internal/WPETabDescriptorProvider.java=UTF-8
 encoding//src/org/eclipse/jst/pagedesigner/utils/JSPUtil.java=UTF-8
+encoding//src/org/eclipse/jst/pagedesigner/viewer/HTMLGraphicalViewer.java=UTF-8
 encoding/<project>=ISO-8859-1

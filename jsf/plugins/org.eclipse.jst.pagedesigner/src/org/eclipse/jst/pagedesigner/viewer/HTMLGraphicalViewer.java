@@ -372,6 +372,8 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 				fixPropertySource.getPropertyDescriptors();
 			}
 			
+			
+			// 字段列表选中字段
 			String bizObjName = ModelCommet.getCommentHeaderBizObjName(commentNode);
 			if(bizObjName!=null){
 				String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);

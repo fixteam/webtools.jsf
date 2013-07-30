@@ -209,8 +209,9 @@ public abstract class FixAbstractTagCreator implements ITagCreator
             		NamedNodeMap nodeAttributes = templateTrNode.getAttributes();
             		Node attrNode = nodeAttributes.getNamedItem("repeat"); //$NON-NLS-1$
             		// 
-            		if(attrNode != null){ 
-            			if(!attrNode.getNodeValue().equals("template")){ //$NON-NLS-1$
+//            		if(attrNode != null){ 
+            			if(attrNode == null
+            					||!attrNode.getNodeValue().equals("template")){ //$NON-NLS-1$
             				/*
             				 * 不断往外层遍历，结束两种情况：
             				 * 1.遍历到明细表
@@ -230,12 +231,10 @@ public abstract class FixAbstractTagCreator implements ITagCreator
                                 				getNamedItem(AbstractTagCreatorProvider.tagAttr_BIZOBJ
                                 						).getNodeValue();
                             			detailTableId = templateTrNode.getAttributes().
-                                				getNamedItem(AbstractTagCreatorProvider.tagAttr_ID
-                                						).getNodeValue();
+                                				getNamedItem("detailTableId").getNodeValue(); //$NON-NLS-1$
                             			
                             			bizObjTypes = ConstantProperty.bizObjTypes[1]+"-" //$NON-NLS-1$
-                            					+templateTrNode.getAttributes().getNamedItem(
-                            							AbstractTagCreatorProvider.tagAttr_ID).getNodeValue();
+                            					+ detailTableId + "-" + detailBizObjName; //$NON-NLS-1$ 
                             			break;
                             		}
                     			}
@@ -248,7 +247,7 @@ public abstract class FixAbstractTagCreator implements ITagCreator
                     		detailTableId = templateTrNode.getAttributes().
                     				getNamedItem("detailTableId").getNodeValue(); //$NON-NLS-1$
                     	}
-            		}
+//            		}
             	}
             	if(isDetailTag){
             		bizObjTypes = ConstantProperty.bizObjTypes[1]+"-"+detailTableId+"-"+detailBizObjName; //$NON-NLS-1$ //$NON-NLS-2$

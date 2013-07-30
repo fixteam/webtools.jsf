@@ -100,6 +100,9 @@ public class ConverterFactoryRegistry
         
         /*
          *	@author Fifteenth
+         *
+         *	1.span的ComponentType为空为html的组件
+         *	2.span的ComponentTyp不为空表示为fix组件
          */
         if(ele.getTagName().toLowerCase().equals("span")//$NON-NLS-1$
         		&&!ele.getAttribute(AbstractTagCreatorProvider.tagAttr_ComponentType).equals("")){ //$NON-NLS-1$
