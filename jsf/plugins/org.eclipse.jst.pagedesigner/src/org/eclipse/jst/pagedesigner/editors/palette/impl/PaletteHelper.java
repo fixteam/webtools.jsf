@@ -272,19 +272,24 @@ public class PaletteHelper {
 	}
 	
 	
+	/**
+	 * 加载基本组件
+	 * @param category
+	 */
 	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category) {
 		String pagePage = CurrentRemember.currentFormPagePath;
 		String webProjectName = CurrentRemember.webProjectName;
+		
 		String imagePath = pagePage.substring(0,
 				pagePage.indexOf(webProjectName) + webProjectName.length())
 				+ "/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
 		ImageDescriptor imageDescriptor = null;
 		try {
-			imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath)
-					.toURL());
+			imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+		
 		internalCreateTagEntry(
 				category,
 				"table1", "table", "\u8868\u683C", "\u53EF\u7528\u4E8E\u81EA\u52A8\u751F\u6210\u660E\u7EC6\u8868", imageDescriptor, imageDescriptor, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -292,7 +297,11 @@ public class PaletteHelper {
 
 		categoryBasic = category;
 	}
-	
+
+	/**
+	 * 加载component下所有的组件
+	 * @param category
+	 */
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
 		XmlPropBufferProvider.getComponentJson();
 
@@ -305,17 +314,20 @@ public class PaletteHelper {
 			Object toolbarGroupCaption = map.get("toolbarGroupCaption"); //$NON-NLS-1$
 			if (toolbarGroupCaption != null) {
 				if (toolbarGroupCaption.toString().equals(categoryType)) {
-					String imagePath = pagePage.substring(0,
-							pagePage.indexOf(webProjectName) + webProjectName.length())
+					
+					String imagePath = pagePage.substring(
+							0,
+							pagePage.indexOf(webProjectName)
+									+ webProjectName.length())
 							+ "/WebRoot/components/" + map.get("tagname").toString() + "/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					ImageDescriptor imageDescriptor = null;
 					try {
 						imageDescriptor = ImageDescriptor
 								.createFromURL(new File(imagePath).toURL());
 					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					if (map.get("displayTag") == null) { //$NON-NLS-1$
 						internalCreateTagEntry(
 								category,
@@ -332,7 +344,7 @@ public class PaletteHelper {
 				}
 			}
 		}
-		
+
 		category.setInitialState(1);
 		sortTags(category.getChildren());
 	}
