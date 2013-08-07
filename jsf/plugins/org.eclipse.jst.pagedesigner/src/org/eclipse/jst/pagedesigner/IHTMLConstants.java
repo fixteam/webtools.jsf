@@ -18,7 +18,7 @@ import org.eclipse.wst.xml.core.internal.provisional.contentmodel.CMDocType;
 /**
  * @author mengbo
  */
-public class IHTMLConstants {
+public class IHTMLConstants { 
 	/**
 	 * anchor tag name
 	 */
