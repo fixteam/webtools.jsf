@@ -272,53 +272,62 @@ public class PaletteHelper {
 	}
 	
 	
-	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category){
+	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category) {
 		String pagePage = CurrentRemember.currentFormPagePath;
 		String webProjectName = CurrentRemember.webProjectName;
-		String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
-				+"/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
+		String imagePath = pagePage.substring(0,
+				pagePage.indexOf(webProjectName) + webProjectName.length())
+				+ "/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
 		ImageDescriptor imageDescriptor = null;
 		try {
-			imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
+			imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath)
+					.toURL());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		internalCreateTagEntry(category,"table1","table","\u8868\u683C","\u53EF\u7528\u4E8E\u81EA\u52A8\u751F\u6210\u660E\u7EC6\u8868",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		internalCreateTagEntry(
+				category,
+				"table1", "table", "\u8868\u683C", "\u53EF\u7528\u4E8E\u81EA\u52A8\u751F\u6210\u660E\u7EC6\u8868", imageDescriptor, imageDescriptor, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		category.setInitialState(1);
-		
+
 		categoryBasic = category;
 	}
 	
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
 		XmlPropBufferProvider.getComponentJson();
-		
+
 		String pagePage = CurrentRemember.currentFormPagePath;
 		String webProjectName = CurrentRemember.webProjectName;
-		
-		for(int i=0;i<XmlPropBufferProvider.componentList.size();i++){
-			HashMap<String,Object> map= XmlPropBufferProvider.componentList.get(i);
+
+		for (int i = 0; i < XmlPropBufferProvider.componentList.size(); i++) {
+			HashMap<String, Object> map = XmlPropBufferProvider.componentList.get(i);
 			String categoryType = category.getLabel();
 			Object toolbarGroupCaption = map.get("toolbarGroupCaption"); //$NON-NLS-1$
-			if(toolbarGroupCaption!=null){
-				if(toolbarGroupCaption.toString().equals(categoryType)){
-					String imagePath = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
-		    				+"/WebRoot/components/"+map.get("tagname").toString()+"/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (toolbarGroupCaption != null) {
+				if (toolbarGroupCaption.toString().equals(categoryType)) {
+					String imagePath = pagePage.substring(0,
+							pagePage.indexOf(webProjectName) + webProjectName.length())
+							+ "/WebRoot/components/" + map.get("tagname").toString() + "/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					ImageDescriptor imageDescriptor = null;
 					try {
-						imageDescriptor = ImageDescriptor.createFromURL(new File(imagePath).toURL());
+						imageDescriptor = ImageDescriptor
+								.createFromURL(new File(imagePath).toURL());
 					} catch (MalformedURLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(map.get("displayTag")==null){ //$NON-NLS-1$
-						internalCreateTagEntry(category,map.get("tagname").toString(), //$NON-NLS-1$
-								map.get("tagname").toString(),map.get("caption").toString().toString(), //$NON-NLS-1$ //$NON-NLS-2$
-								"",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ 
-					}else{
-						internalCreateTagEntry(category,map.get("tagname").toString(), //$NON-NLS-1$
-								map.get("displayTag").toString(),map.get("caption").toString(),  //$NON-NLS-1$//$NON-NLS-2$
-								"",imageDescriptor,imageDescriptor,false); //$NON-NLS-1$ 
+					if (map.get("displayTag") == null) { //$NON-NLS-1$
+						internalCreateTagEntry(
+								category,
+								map.get("tagname").toString(), //$NON-NLS-1$
+								map.get("tagname").toString(), map.get("caption").toString().toString(), //$NON-NLS-1$ //$NON-NLS-2$
+								"", imageDescriptor, imageDescriptor, false); //$NON-NLS-1$ 
+					} else {
+						internalCreateTagEntry(
+								category,
+								map.get("tagname").toString(), //$NON-NLS-1$
+								map.get("displayTag").toString(), map.get("caption").toString(), //$NON-NLS-1$//$NON-NLS-2$
+								"", imageDescriptor, imageDescriptor, false); //$NON-NLS-1$ 
 					}
 				}
 			}
