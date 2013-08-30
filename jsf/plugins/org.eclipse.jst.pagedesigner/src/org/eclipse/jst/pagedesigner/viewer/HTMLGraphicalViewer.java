@@ -361,23 +361,23 @@ public class HTMLGraphicalViewer extends ScrollingGraphicalViewer implements
 		 *	@author Fifteenth
 		 *		select field
 		 */
-		if(editpart instanceof ElementEditPart){
-			ElementStyleImpl impl = (ElementStyleImpl)((ElementEditPart)editpart).getDOMNode();
+		if (editpart instanceof ElementEditPart) {
+			ElementStyleImpl impl = (ElementStyleImpl) ((ElementEditPart) editpart).getDOMNode();
 			Node commentNode = ModelCommet.getNode(impl);
-			
+
+			//初始化属性
 			FixPropertySourceProvider provider = new FixPropertySourceProvider(""); //$NON-NLS-1$
 			FixPropertySourceProvider.currentProvider = provider;
 			FixPropertySource fixPropertySource = (FixPropertySource) provider.getPropertySource(impl);
-			if(!FixPropertySource.isInit){
+			if (!FixPropertySource.isInit) {
 				fixPropertySource.getPropertyDescriptors();
 			}
-			
-			
-			// 字段列表选中字段
-			String bizObjName = ModelCommet.getCommentHeaderBizObjName(commentNode);
-			if(bizObjName!=null){
-				String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);
-				WPEBizObjFieldsView.setSelection(bizObjName,selectField);
+
+			// 字段列表选中字段（从comment注释中找）
+			String bizObjName = ModelCommet.getCommentHeaderBizObjName(commentNode);	//获取业务对象
+			if (bizObjName != null) {
+				String selectField = WPEBizObjFieldsView.getSelectionField(commentNode);	//获取绑定字段
+				WPEBizObjFieldsView.setSelection(bizObjName, selectField);
 			}
 		}
 		

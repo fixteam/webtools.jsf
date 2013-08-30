@@ -567,45 +567,40 @@ public final class HTMLEditor extends MultiPageEditorPart implements
 		_textEditor.doSave(monitor);
 		firePersistenceEvent(PersistenceEventType.SAVED);
 		
-		
-		
 		/*
 		 *	@author Fifteenth
 		 *		字符串处理
 		 */
-		IEditorPart htmlEditor =  getActiveEditor();
-		
-		String formPagePath = ((FileEditorInput)htmlEditor.getEditorInput()).getFile().getLocation().toString();
+		IEditorPart htmlEditor = getActiveEditor();
+
+		String formPagePath = ((FileEditorInput) htmlEditor.getEditorInput())
+				.getFile().getLocation().toString();
 		IDocument document;
-		
+
 		/*
-		 * 两个编辑器
-		 * 	1.代码编辑器可以直接由编辑器得到文本内容
-		 * 	2.图形化的编辑器只能根据决定路径去读取文件
+		 * 两个编辑器 1.代码编辑器可以直接由编辑器得到文本内容 2.图形化的编辑器只能根据决定路径去读取文件
 		 */
-        if(htmlEditor instanceof AbstractDecoratedTextEditor
-        		){
-        	document = ((AbstractDecoratedTextEditor) 
-    				htmlEditor).getDocumentProvider().getDocument(htmlEditor.getEditorInput());
-            
-            //得到文本内容
-            String doucumentText = document.get();
-            HTMLEditorProvider.writeJS(formPagePath,doucumentText);
-        }else if(htmlEditor instanceof SimpleGraphicalEditor){
-        	BufferedReader in;
+		if (htmlEditor instanceof AbstractDecoratedTextEditor) {
+			document = ((AbstractDecoratedTextEditor) htmlEditor)
+					.getDocumentProvider().getDocument(htmlEditor.getEditorInput());
+
+			// 得到文本内容
+			String doucumentText = document.get();
+			HTMLEditorProvider.writeJS(formPagePath, doucumentText);
+		} else if (htmlEditor instanceof SimpleGraphicalEditor) {
+			BufferedReader in;
 			try {
 				in = new BufferedReader(new FileReader(formPagePath));
-				String doucumentText=""; //$NON-NLS-1$
-				String line=""; //$NON-NLS-1$
-	            while((line = in.readLine())!=null){
-	            	doucumentText += line+"\r"; //$NON-NLS-1$
-	            }
-	            HTMLEditorProvider.writeJS(formPagePath,doucumentText);
+				String doucumentText = ""; //$NON-NLS-1$
+				String line = ""; //$NON-NLS-1$
+				while ((line = in.readLine()) != null) {
+					doucumentText += line + "\r"; //$NON-NLS-1$
+				}
+				HTMLEditorProvider.writeJS(formPagePath, doucumentText);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
+		}
         
         /*
          * 老验证体系

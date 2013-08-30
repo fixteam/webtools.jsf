@@ -41,17 +41,16 @@ public class WPETabDescriptorProvider implements ITabDescriptorProvider {
 //		_quickTabDescriptor = new QuickEditTabDescriptor();
 		_attributesTabDescriptor = new AttributesTabDescriptor();
 		
-		
 		/*
 		 * founderfix
 		 * 属性页改造
 		 */
-		_fixAdvanceTabDescriptor = new FixAdvanceTabDescriptor();
-		_fixNormalTabDescriptor = new FixNormalTabDescriptor();
-		_fixServerTabDescriptor = new FixServerTabDescriptor();
-		_fixEventTabDescriptor = new FixEventTabDescriptor();
-		_fixVerifyTabDescriptor = new FixVerifyTabDescriptor();
-		_fixActionTabDescriptor = new FixActionTabDescriptor();
+		_fixAdvanceTabDescriptor = new FixAdvanceTabDescriptor(); //高级
+		_fixNormalTabDescriptor = new FixNormalTabDescriptor();	//常规
+		_fixServerTabDescriptor = new FixServerTabDescriptor();	//后台	
+		_fixEventTabDescriptor = new FixEventTabDescriptor();	//事件
+		_fixVerifyTabDescriptor = new FixVerifyTabDescriptor();	//验证
+		_fixActionTabDescriptor = new FixActionTabDescriptor();	//操作
 	}
 	
 	/**
