@@ -234,16 +234,15 @@ public abstract class FixAbstractTagCreator implements ITagCreator
 						/*
 						 * 不断往外层遍历，结束两种情况： 1.遍历到明细表 2.遍历到body节点
 						 */
-						while (!templateTrNode
-								.getParentNode()
-								.getNodeName()
+						while (templateTrNode.getParentNode() != null 
+								&& !templateTrNode.getParentNode().getNodeName()
 								.equals(AbstractTagCreatorProvider.nodeName_BODY)) {
 							templateTrNode = templateTrNode.getParentNode();
 
 							if (templateTrNode.getNodeName().equals(
 									AbstractTagCreatorProvider.nodeName_TR)) {
-								if (templateTrNode.getAttributes()
-										.getNamedItem("repeat"). //$NON-NLS-1$
+								if (templateTrNode.getAttributes().getNamedItem("repeat") != null 	//$NON-NLS-1$
+										&& templateTrNode.getAttributes().getNamedItem("repeat"). //$NON-NLS-1$
 										getNodeValue().equals("template")) {//$NON-NLS-1$
 
 									isDetailTag = true;
