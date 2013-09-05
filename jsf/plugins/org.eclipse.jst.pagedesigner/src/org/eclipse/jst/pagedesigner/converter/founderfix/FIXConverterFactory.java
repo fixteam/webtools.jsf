@@ -12,6 +12,8 @@
 package org.eclipse.jst.pagedesigner.converter.founderfix;
 
 //import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jst.jsf.context.resolver.structureddocument.IStructuredDocumentContextResolverFactory;
 import org.eclipse.jst.jsf.context.resolver.structureddocument.IWorkspaceContextResolver;
@@ -106,15 +108,16 @@ public class FIXConverterFactory implements IConverterFactory {
                 			return null;
                 		}
                 		
-                		String pagePage = CurrentRemember.currentFormPagePath;
+//                		String pagePage = CurrentRemember.currentFormPagePath;	
                 		String webProjectName = CurrentRemember.webProjectName;
+                		
                 		
                 		if(hostElement.getAttribute("ComponentType")==null //$NON-NLS-1$
                 				||hostElement.getAttribute("ComponentType").equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
                 			return null;
                 		}
-                		String Path = pagePage.substring(0, pagePage.indexOf(webProjectName)+webProjectName.length())
-                				+"/WebRoot/components/"+hostElement.getAttribute("ComponentType").trim()+"/design.jpg";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+						String Path = getWorkspaceRealPath() + webProjectName
+								+ "/WebRoot/components/" + hostElement.getAttribute("ComponentType").trim() + "/design.jpg";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
                 		return new Image(null, Path); 
                 	}
                 }
@@ -133,4 +136,13 @@ public class FIXConverterFactory implements IConverterFactory {
 		return "founderfix"; //$NON-NLS-1$
 	}
 
+	/**
+	 * 获取eclipse的workspace真实目录
+	 */
+	public static String getWorkspaceRealPath() {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		// root.getFullPath();
+		return root.getLocation().toString() + "/";	//$NON-NLS-1$
+		// root.getLocationURI();
+	}
 }
