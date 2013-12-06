@@ -211,6 +211,23 @@ public class DOMUtil {
 				int len = children.getLength();
 				if (len != 0) {
 					sb.append(">"); //$NON-NLS-1$
+					//add @FixAttributies by wzw
+					Node fixAttr = node.getFirstChild().getNextSibling() == null ? 
+							node.getFirstChild() : node.getFirstChild().getNextSibling();
+					if(fixAttr != null) {
+						String context = fixAttr.getTextContent();
+						
+						//remove the event config
+						if(context.indexOf("\"event\"") != -1) {	 //$NON-NLS-1$
+							String beforeEvent = context.substring(0, context.indexOf("\"event\"")); //$NON-NLS-1$
+							String event = context.substring(context.indexOf("\"event\""), //$NON-NLS-1$
+									context.length()); 
+							String afterEvent = event.substring(event.indexOf(",") + 1, event.length()); //$NON-NLS-1$
+							context = beforeEvent + afterEvent;
+						}
+						
+						sb.append("<!--" + context + "-->");  //$NON-NLS-1$//$NON-NLS-2$
+					}
 				}
 				for (int i = 0; i < len; i++) {
 					nodeToString(children.item(i), sb);

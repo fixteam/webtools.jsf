@@ -56,7 +56,12 @@ public class CopyNodeCommand extends Command {
 				Object model = part.getModel();
 				if (model instanceof Node) {
 					EditValidateUtil.validNode((Node) model);
-					result.add(((Node) model).cloneNode(true));
+					//update the mode id by wzw
+					Node newNode = ((Node) model).cloneNode(true);
+					newNode.getAttributes().getNamedItem("id").setNodeValue(newNode.getAttributes() //$NON-NLS-1$
+							.getNamedItem("id").getNodeValue() + "_Copy"); //$NON-NLS-1$ //$NON-NLS-2$
+					
+					result.add(newNode);
 				}
 			}
 			setClipboard(result);
