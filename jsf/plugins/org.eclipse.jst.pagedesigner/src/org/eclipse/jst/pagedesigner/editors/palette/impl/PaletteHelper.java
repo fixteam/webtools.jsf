@@ -57,6 +57,7 @@ import org.eclipse.wst.xml.core.internal.contentmodel.CMNamedNodeMap;
 
 import com.founder.fix.base.wpe.CurrentRemember;
 import com.founder.fix.fixwpe.wpeformdesigner.XmlPropBufferProvider;
+import com.founder.fix.ocx.util.FixUtil;
 
 
 
@@ -277,11 +278,13 @@ public class PaletteHelper {
 	 * @param category
 	 */
 	public void loadFounderfixStaticTags(final TaglibPaletteDrawer category) {
-		String pagePage = CurrentRemember.currentFormPagePath;
+//		String pagePage = CurrentRemember.currentFormPagePath;
 		String webProjectName = CurrentRemember.webProjectName;
 		
-		String imagePath = pagePage.substring(0,
-				pagePage.indexOf(webProjectName) + webProjectName.length())
+//		String imagePath = pagePage.substring(0,
+//				pagePage.indexOf(webProjectName) + webProjectName.length())
+//				+ "/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
+		String imagePath = FixUtil.getWorkspaceRealPath() + webProjectName 
 				+ "/WebRoot/components/static/table.bmp"; //$NON-NLS-1$
 		ImageDescriptor imageDescriptor = null;
 		try {
@@ -305,7 +308,7 @@ public class PaletteHelper {
 	public void loadFounderfixTags(final TaglibPaletteDrawer category) {
 		XmlPropBufferProvider.getComponentJson();
 
-		String pagePage = CurrentRemember.currentFormPagePath;
+//		String pagePage = CurrentRemember.currentFormPagePath;
 		String webProjectName = CurrentRemember.webProjectName;
 
 		for (int i = 0; i < XmlPropBufferProvider.componentList.size(); i++) {
@@ -315,10 +318,7 @@ public class PaletteHelper {
 			if (toolbarGroupCaption != null) {
 				if (toolbarGroupCaption.toString().equals(categoryType)) {
 					
-					String imagePath = pagePage.substring(
-							0,
-							pagePage.indexOf(webProjectName)
-									+ webProjectName.length())
+					String imagePath = FixUtil.getWorkspaceRealPath() + webProjectName
 							+ "/WebRoot/components/" + map.get("tagname").toString() + "/ico.bmp"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					ImageDescriptor imageDescriptor = null;
 					try {
